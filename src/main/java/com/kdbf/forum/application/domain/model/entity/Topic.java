@@ -13,10 +13,10 @@ public class Topic {
   private Course course;
 
   private Topic(Course course, UUID publicId, String title, String body, Author author) {
-    if (title.isEmpty() || title == null) {
+    if (title == null || title.isEmpty()) {
       throw new InvalidTitleException("A topic needs to have a title");
     }
-    if (body.isEmpty() || body == null) {
+    if (body == null || body.isEmpty()) {
       throw new NoBodyException("A topic needs to have a body");
     }
 
