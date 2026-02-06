@@ -2,6 +2,9 @@ package com.kdbf.forum.application.domain.model.entity;
 
 import java.util.UUID;
 
+import com.kdbf.forum.application.domain.model.exception.InvalidTitleException;
+import com.kdbf.forum.application.domain.model.exception.NoBodyException;
+
 public class Topic {
   private UUID publicId;
   private String title;
@@ -10,6 +13,13 @@ public class Topic {
   private Course course;
 
   private Topic(Course course, UUID publicId, String title, String body, Author author) {
+    if (title.isEmpty() || title == null) {
+      throw new InvalidTitleException("A topic needs to have a title");
+    }
+    if (body.isEmpty() || body == null) {
+      throw new NoBodyException("A topic needs to have a body");
+    }
+
     this.course = course;
     this.publicId = publicId;
     this.title = title;
