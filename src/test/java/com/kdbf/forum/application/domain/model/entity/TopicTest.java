@@ -52,6 +52,7 @@ public class TopicTest {
     assertEquals(updatedBody, topic.getBody());
   }
 
+  @Test
   public void shouldNotAllowEmptyTitle() {
     InvalidTitleException exception = assertThrows(InvalidTitleException.class, () -> {
       Topic.newInstance(new Course("CS-104"),
@@ -63,6 +64,7 @@ public class TopicTest {
     assertEquals("A topic needs to have a title", exception.getMessage());
   }
 
+  @Test
   public void shouldNotAllowEmptyBody() {
     NoBodyException exception = assertThrows(NoBodyException.class, () -> {
       Topic.newInstance(new Course("CS-202"),
