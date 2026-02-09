@@ -8,10 +8,10 @@ import com.kdbf.forum.adapters.out.persistence.utility.CycleAvoidingMappingConte
 import com.kdbf.forum.application.domain.model.entity.Course;
 
 @Mapper(componentModel = "spring")
-public interface CourseJpaMapper {
+public abstract class CourseJpaMapper {
 
-  Course toDomain(CourseJpa courseJpa, @Context CycleAvoidingMappingContext context);
+  abstract Course toDomain(CourseJpa courseJpa, @Context CycleAvoidingMappingContext context);
 
-  CourseJpa toJpa(Course course, @Context CycleAvoidingMappingContext context);
+  abstract CourseJpa toJpa(Course course, @Context CycleAvoidingMappingContext context);
 
 }
