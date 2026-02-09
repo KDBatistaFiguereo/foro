@@ -28,7 +28,7 @@ public abstract class TopicJpaMapper {
         authorJpaMapper.toDomain(topicJpa.getAuthor(), context));
   }
 
-  abstract Topic toDomain(TopicJpa topicJpa, @Context CycleAvoidingMappingContext context);
+  abstract public Topic toDomain(TopicJpa topicJpa, @Context CycleAvoidingMappingContext context);
 
-  abstract TopicJpa toJpa(Topic topic, @Context CycleAvoidingMappingContext context);
+  abstract public TopicJpa toJpa(Topic topic, @Context CycleAvoidingMappingContext context);
 }

@@ -19,10 +19,10 @@ public class AuthorJpa {
   private Long id;
 
   @Column
-  private String username;
+  private String userName;
 
   public AuthorJpa(String username) {
-    this.username = username;
+    this.userName = username;
   }
 
 }
