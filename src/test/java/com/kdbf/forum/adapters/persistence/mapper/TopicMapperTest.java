@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -63,7 +62,7 @@ public class TopicMapperTest {
     assertEquals(topicJpa.getPublicId(), topic.getPublicId());
     assertEquals(topicJpa.getTitle(), topic.getTitle());
     assertEquals(topicJpa.getBody(), topic.getBody());
-    assertEquals(topicJpa.getAuthor().getUserName(), topic.getAuthor().getUserName());
+    assertEquals(topicJpa.getAuthor().getUsername(), topic.getAuthor().getUsername());
     assertEquals(topicJpa.getCourse().getCourseName(), topic.getCourse().getCourseName());
     assertNotNull(topic.getAuthor());
     assertNotNull(topic.getCourse());
@@ -85,7 +84,7 @@ public class TopicMapperTest {
     assertEquals(topic.getTitle(), topicJpa.getTitle());
     assertEquals(topic.getBody(), topicJpa.getBody());
     assertEquals(topic.getCourse().getCourseName(), topicJpa.getCourse().getCourseName());
-    assertEquals(topic.getAuthor().getUserName(), topicJpa.getAuthor().getUserName());
+    assertEquals(topic.getAuthor().getUsername(), topicJpa.getAuthor().getUsername());
     assertNotNull(topicJpa.getAuthor());
     assertNotNull(topicJpa.getCourse());
   }
