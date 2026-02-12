@@ -5,7 +5,7 @@ import java.util.UUID;
 public record ResponseTopicDto(
     UUID publicId,
     String title,
-    String Body,
+    String body,
     AuthorDto author,
     CourseDto course) {
 }
