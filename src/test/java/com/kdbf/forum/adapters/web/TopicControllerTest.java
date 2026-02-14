@@ -45,9 +45,6 @@ public class TopicControllerTest {
   @MockitoBean
   private TopicDtoMapper topicMapper;
 
-  private final ObjectMapper objectMapper = new ObjectMapper()
-      .registerModule(new JavaTimeModule());
-
   @Test
   @DisplayName("Should return 201 if succesful")
   public void registerSuccess() throws Exception {
