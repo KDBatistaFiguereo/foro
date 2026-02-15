@@ -1,8 +1,11 @@
 package com.kdbf.forum.adapters.in.web;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -10,6 +13,7 @@ import com.kdbf.forum.adapters.in.web.dto.CreateTopicDto;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.port.in.RegisterTopicCommand;
 
@@ -21,7 +25,8 @@ import lombok.AllArgsConstructor;
 public class TopicController {
 
   private final TopicDtoMapper topicMapper;
-  private final RegisterTopicService topicService;
+  private final RegisterTopicService registerService;
+  private final FindTopicsService findService;
 
   @PostMapping("/topicos")
   public ResponseEntity<ResponseTopicDto> registerAuthor(
@@ -35,13 +40,27 @@ public class TopicController {
 
   }
 
+  @GetMapping("/topicos")
+  public ResponseEntity<List<ResponseTopicDto>> showAllTopics() {
+
+    List<ResponseTopicDto> topics;
+
+    topics = findService.findAllTopics().stream()
+        .map(x -> topicMapper.toDto(x))
+        .toList();
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(topics);
+
+  }
+
   private ResponseTopicDto processAndSaveTopic(CreateTopicDto topicDto) {
     RegisterTopicCommand command = new RegisterTopicCommand(
         topicDto.title(),
         topicDto.body(),
         topicDto.author().username(),
         topicDto.course().courseName());
-    Topic savedTopic = topicService.registerTopic(command);
+    Topic savedTopic = registerService.registerTopic(command);
 
     ResponseTopicDto responseDto = topicMapper.toDto(savedTopic);
     return responseDto;

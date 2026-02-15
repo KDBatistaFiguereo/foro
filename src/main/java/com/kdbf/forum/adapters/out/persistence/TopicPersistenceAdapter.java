@@ -1,5 +1,7 @@
 package com.kdbf.forum.adapters.out.persistence;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
@@ -14,6 +16,7 @@ import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.model.exception.DuplicateTopicException;
 import com.kdbf.forum.application.domain.model.exception.NonExistantAuthorException;
 import com.kdbf.forum.application.domain.model.exception.NonExistantCourseException;
+import com.kdbf.forum.application.port.out.FindTopicsPort;
 import com.kdbf.forum.application.port.out.PersistTopicsPort;
 import com.kdbf.forum.application.port.out.TopicsExistencePort;
 
@@ -23,17 +26,18 @@ import lombok.AllArgsConstructor;
 @Repository
 @AllArgsConstructor
 public class TopicPersistenceAdapter implements
-    PersistTopicsPort, TopicsExistencePort {
+    PersistTopicsPort, TopicsExistencePort, FindTopicsPort {
 
   private final TopicRepository topicRepository;
   private final AuthorRepository authorRepository;
   private final CourseRepository courseRepository;
   private final TopicJpaMapper topicMapper;
+  private final CycleAvoidingMappingContext context = new CycleAvoidingMappingContext();
 
   @Override
   @Transactional
   public Topic persistTopic(Topic topic) {
-    CycleAvoidingMappingContext context = new CycleAvoidingMappingContext();
+
     AuthorJpa authorJpa = authorRepository.byUserName(topic.getAuthor().getUsername())
         .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
     CourseJpa courseJpa = courseRepository.byCourseName(topic.getCourse().getCourseName())
@@ -56,6 +60,13 @@ public class TopicPersistenceAdapter implements
   @Override
   public Boolean existsByTitleAndCourseName(String title, String courseName) {
     return topicRepository.exists(title, courseName);
+  }
+
+  @Override
+  public List<Topic> findAll() {
+    return topicRepository.findAll().stream()
+        .map(x -> topicMapper.toDomain(x, context))
+        .toList();
   }
 
 }

@@ -1,13 +1,13 @@
 package com.kdbf.forum.adapters.web;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -22,33 +22,35 @@ import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
+import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
-
-import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(TopicController.class)
-@WithMockUser
 @ActiveProfiles("test")
-public class TopicControllerTest {
+@WithMockUser
+public class TopicShowAllControllerTest {
 
   @Autowired
   MockMvc mockMvc;
 
   @MockitoBean
-  private RegisterTopicService topicService;
+  private RegisterTopicService registerTopic;
+
+  @MockitoBean
+  private FindTopicsService findTopics;
 
   @MockitoBean
   private TopicDtoMapper topicMapper;
 
   @Test
-  @DisplayName("Should return 201 if succesful")
-  public void registerSuccess() throws Exception {
+  @DisplayName("Should return 200 and list of topics")
+  public void shouldReturnList() throws Exception {
     UUID publicId = UUID.randomUUID();
     String title = "Post requests";
     String body = "¿Whats the difference between post and get?";
@@ -56,9 +58,10 @@ public class TopicControllerTest {
     String courseName = "Http fundamentals";
     LocalDateTime creationDate = LocalDateTime.now();
     TopicStatus topicStatus = TopicStatus.DRAFT;
+
     Author author = new Author(username);
     Course course = new Course(courseName);
-    Topic savedTopic = Topic.reconstitute(course, publicId, title, body, author, creationDate, topicStatus);
+    Topic topic = Topic.reconstitute(course, publicId, title, body, author, creationDate, topicStatus);
     AuthorDto authorDto = new AuthorDto(username);
     CourseDto courseDto = new CourseDto(courseName);
     ResponseTopicDto responseDto = new ResponseTopicDto(
@@ -70,31 +73,16 @@ public class TopicControllerTest {
         LocalDateTime.now(),
         TopicStatus.DRAFT);
 
-    when(topicService.registerTopic(any()))
-        .thenReturn(savedTopic);
-    when(topicMapper.toDto(savedTopic))
-        .thenReturn(responseDto);
+    when(findTopics.findAllTopics()).thenReturn(List.of(topic));
+    when(topicMapper.toDto(topic)).thenReturn(responseDto);
 
-    String json = """
-        {
-          "title": "%s",
-          "body": "%s",
-          "author": { "username": "%s" },
-          "course": { "courseName": "%s" }
-        }
-        """.formatted(title, body, username, courseName);
-
-    mockMvc.perform(post("/topicos")
-        .with(csrf())
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(json))
-        .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.publicId").value(publicId.toString()))
-        .andExpect(jsonPath("$.title").value(title))
-        .andExpect(jsonPath("$.body").value(body))
-        .andExpect(jsonPath("$.author.username").value(username))
-        .andExpect(jsonPath("$.course.courseName").value(courseName))
+    mockMvc.perform(get("/topicos"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].publicId").value(publicId.toString()))
+        .andExpect(jsonPath("$[0].title").value(title))
+        .andExpect(jsonPath("$[0].body").value(body))
         .andDo(print());
+
   }
 
 }
