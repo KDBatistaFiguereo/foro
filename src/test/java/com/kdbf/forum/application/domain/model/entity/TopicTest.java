@@ -46,7 +46,9 @@ public class TopicTest {
         topicId,
         topic.getTitle(),
         updatedBody,
-        topic.getAuthor());
+        topic.getAuthor(),
+        topic.getCreationDate(),
+        topic.getStatus());
 
     assertEquals(topicId, topic.getPublicId());
     assertEquals(updatedBody, topic.getBody());

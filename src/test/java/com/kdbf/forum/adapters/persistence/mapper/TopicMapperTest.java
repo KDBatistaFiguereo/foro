@@ -3,12 +3,14 @@ package com.kdbf.forum.adapters.persistence.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -25,11 +27,13 @@ import com.kdbf.forum.adapters.out.persistence.utility.CycleAvoidingMappingConte
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { TopicJpaMapperImpl.class,
     AuthorJpaMapperImpl.class,
     CourseJpaMapperImpl.class })
+@ActiveProfiles("test")
 public class TopicMapperTest {
 
   @Autowired
@@ -50,11 +54,14 @@ public class TopicMapperTest {
 
   @Test
   public void shouldConvertToDomain() {
-    TopicJpa topicJpa = new TopicJpa(UUID.randomUUID(),
+    TopicJpa topicJpa = new TopicJpa(
+        UUID.randomUUID(),
         "How does mapping work",
         "I want to understand mapping",
         new AuthorJpa("new programmer"),
-        new CourseJpa("CS-014"));
+        new CourseJpa("CS-014"),
+        TopicStatus.DRAFT,
+        LocalDateTime.now());
 
     Topic topic = topicMapper.toDomain(topicJpa, context);
 

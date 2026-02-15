@@ -1,0 +1,1 @@
+ALTER TABLE topic ADD COLUMN creation_date TIMESTAMP NOT NULL;

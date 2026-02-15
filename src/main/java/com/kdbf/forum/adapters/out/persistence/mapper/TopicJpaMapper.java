@@ -25,7 +25,9 @@ public abstract class TopicJpaMapper {
         topicJpa.getPublicId(),
         topicJpa.getTitle(),
         topicJpa.getBody(),
-        authorJpaMapper.toDomain(topicJpa.getAuthor(), context));
+        authorJpaMapper.toDomain(topicJpa.getAuthor(), context),
+        topicJpa.getCreationDate(),
+        topicJpa.getStatus());
   }
 
   abstract public Topic toDomain(TopicJpa topicJpa, @Context CycleAvoidingMappingContext context);

@@ -1,19 +1,18 @@
 package com.kdbf.forum.adapters.web;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kdbf.forum.adapters.in.web.TopicController;
 import com.kdbf.forum.adapters.in.web.dto.AuthorDto;
 import com.kdbf.forum.adapters.in.web.dto.CourseDto;
@@ -22,6 +21,7 @@ import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 
 import static org.mockito.Mockito.when;
@@ -34,6 +34,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @WebMvcTest(TopicController.class)
 @WithMockUser
+@ActiveProfiles("test")
 public class TopicControllerTest {
 
   @Autowired
@@ -53,12 +54,21 @@ public class TopicControllerTest {
     String body = "¿Whats the difference between post and get?";
     String username = "confused_web_dev";
     String courseName = "Http fundamentals";
+    LocalDateTime creationDate = LocalDateTime.now();
+    TopicStatus topicStatus = TopicStatus.DRAFT;
     Author author = new Author(username);
     Course course = new Course(courseName);
-    Topic savedTopic = Topic.reconstitute(course, publicId, title, body, author);
+    Topic savedTopic = Topic.reconstitute(course, publicId, title, body, author, creationDate, topicStatus);
     AuthorDto authorDto = new AuthorDto(username);
     CourseDto courseDto = new CourseDto(courseName);
-    ResponseTopicDto responseDto = new ResponseTopicDto(publicId, title, body, authorDto, courseDto);
+    ResponseTopicDto responseDto = new ResponseTopicDto(
+        publicId,
+        title,
+        body,
+        authorDto,
+        courseDto,
+        LocalDateTime.now(),
+        TopicStatus.DRAFT);
 
     when(topicService.registerTopic(any()))
         .thenReturn(savedTopic);

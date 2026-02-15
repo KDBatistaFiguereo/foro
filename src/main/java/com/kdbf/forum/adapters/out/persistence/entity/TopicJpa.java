@@ -1,6 +1,9 @@
 package com.kdbf.forum.adapters.out.persistence.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "TOPIC")
+@Table(name = "topic")
 @NoArgsConstructor
 @Setter
 @Getter
@@ -34,6 +37,12 @@ public class TopicJpa {
   @Column(nullable = false)
   private String body;
 
+  @Column(nullable = false)
+  private TopicStatus status;
+
+  @Column(nullable = false)
+  private LocalDateTime creationDate;
+
   @ManyToOne
   @JoinColumn(name = "author_id", nullable = false)
   private AuthorJpa author;
@@ -42,11 +51,16 @@ public class TopicJpa {
   @JoinColumn(name = "course_id", nullable = false)
   private CourseJpa course;
 
-  public TopicJpa(UUID publicId, String title, String body, AuthorJpa author, CourseJpa course) {
+  public TopicJpa(UUID publicId,
+      String title, String body,
+      AuthorJpa author, CourseJpa course,
+      TopicStatus status, LocalDateTime creationDate) {
     this.publicId = publicId;
     this.title = title;
     this.body = body;
     this.author = author;
     this.course = course;
+    this.status = status;
+    this.creationDate = creationDate;
   }
 }
