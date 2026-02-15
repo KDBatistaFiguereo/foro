@@ -1,7 +1,12 @@
 package com.kdbf.forum.adapters.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +16,15 @@ import org.springframework.test.context.ActiveProfiles;
 import com.kdbf.forum.adapters.out.persistence.TopicPersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
 import com.kdbf.forum.adapters.out.persistence.entity.CourseJpa;
+import com.kdbf.forum.adapters.out.persistence.entity.TopicJpa;
 import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
 import com.kdbf.forum.adapters.out.persistence.repository.CourseRepository;
+import com.kdbf.forum.adapters.out.persistence.repository.TopicRepository;
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
+
 import jakarta.transaction.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -27,6 +36,9 @@ public class TopicPersistenceAdapterTest {
 
   @Autowired
   CourseRepository courseRepository;
+
+  @Autowired
+  TopicRepository topicRepository;
 
   @Autowired
   TopicPersistenceAdapter topicAdapter;
@@ -52,6 +64,42 @@ public class TopicPersistenceAdapterTest {
     assertEquals(topic.getBody(), savedTopic.getBody());
     assertEquals(topic.getCourse().getCourseName(), savedTopic.getCourse().getCourseName());
 
+  }
+
+  @Test
+  @Transactional
+  public void shouldUpdateTopic() {
+    AuthorJpa authorJpa = new AuthorJpa("new_coder");
+    CourseJpa courseJpa = new CourseJpa("CS-015");
+    TopicJpa topicJpa = new TopicJpa(
+        UUID.randomUUID(),
+        "What is an Optional?",
+        "Im new to this concept",
+        authorJpa,
+        courseJpa,
+        TopicStatus.DRAFT,
+        LocalDateTime.now());
+    authorRepository.save(authorJpa);
+    courseRepository.save(courseJpa);
+    topicRepository.save(topicJpa);
+
+    Author author = new Author("new_coder");
+    Course course = new Course("CS-015");
+    Topic topic = Topic.reconstitute(
+        course,
+        topicJpa.getPublicId(),
+        "What is an Optional?",
+        "I am now changing the body of my topic",
+        author,
+        topicJpa.getCreationDate(),
+        topicJpa.getStatus());
+
+    topicAdapter.persistTopic(topic);
+
+    Optional<TopicJpa> savedTopic = topicRepository.byPublicId(topicJpa.getPublicId());
+
+    assertFalse(savedTopic.isEmpty());
+    assertEquals(topic.getBody(), savedTopic.get().getBody());
   }
 
 }

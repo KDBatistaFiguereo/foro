@@ -18,6 +18,7 @@ import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
+import com.kdbf.forum.application.domain.service.UpdateTopicService;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,6 +43,9 @@ public class TopicPostControllerTest {
   private FindTopicsService findService;
 
   @MockitoBean
+  private UpdateTopicService updateTopic;
+
+  @MockitoBean
   private TopicDtoMapper topicMapper;
 
   @Test
@@ -55,6 +59,7 @@ public class TopicPostControllerTest {
     when(topicMapper.toDto(savedTopic))
         .thenReturn(responseDto);
 
+    // TODO: Update json to reflect newer fields
     String json = """
         {
           "title": "%s",

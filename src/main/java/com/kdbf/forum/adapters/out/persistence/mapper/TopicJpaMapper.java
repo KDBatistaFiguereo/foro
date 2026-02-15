@@ -2,6 +2,8 @@ package com.kdbf.forum.adapters.out.persistence.mapper;
 
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,4 +35,12 @@ public abstract class TopicJpaMapper {
   abstract public Topic toDomain(TopicJpa topicJpa, @Context CycleAvoidingMappingContext context);
 
   abstract public TopicJpa toJpa(Topic topic, @Context CycleAvoidingMappingContext context);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "publicId", ignore = true)
+  @Mapping(target = "author", ignore = true)
+  @Mapping(target = "course", ignore = true)
+  abstract public void updateJpaFromDomain(Topic topic,
+      @MappingTarget TopicJpa topicJpa,
+      @Context CycleAvoidingMappingContext context);
 }

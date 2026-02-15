@@ -34,4 +34,11 @@ public interface TopicRepository extends JpaRepository<TopicJpa, Long> {
       AND t.course.courseName = :courseName
       """)
   public Boolean exists(String title, String courseName);
+
+  @Query("""
+      SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END
+      FROM TopicJpa t
+      WHERE t.publicId = :publicId
+      """)
+  public Boolean existsByPublicId(UUID publicId);
 }

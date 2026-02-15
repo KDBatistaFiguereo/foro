@@ -10,7 +10,7 @@ public class TopicDtoMother {
     return new ResponseTopicDto(
         topic.getPublicId(),
         topic.getTitle(),
-        topic.getTitle(),
+        topic.getBody(),
         new AuthorDto(topic.getAuthor().getUsername()),
         new CourseDto(topic.getCourse().getCourseName()),
         topic.getCreationDate(),

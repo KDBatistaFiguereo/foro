@@ -17,6 +17,7 @@ import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
+import com.kdbf.forum.application.domain.service.UpdateTopicService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -38,6 +39,9 @@ public class TopicShowControllerTest {
 
   @MockitoBean
   private FindTopicsService findTopics;
+
+  @MockitoBean
+  private UpdateTopicService updateTopic;
 
   @MockitoBean
   private TopicDtoMapper topicMapper;

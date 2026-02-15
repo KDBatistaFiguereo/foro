@@ -38,6 +38,7 @@ public class Topic {
     this.status = status;
   }
 
+  // TODO: refactor to builder pattern
   public static Topic newInstance(
       final Course course,
       final String title,

@@ -44,19 +44,29 @@ public class TopicPersistenceAdapter implements
         .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
     CourseJpa courseJpa = courseRepository.byCourseName(topic.getCourse().getCourseName())
         .orElseThrow(() -> new NonExistantCourseException("The course doesn't exist"));
-    TopicJpa entityToSave = topicMapper.toJpa(topic, context);
+    // TODO: defend against updating to an already existing topic
+    return topicRepository.byPublicId(topic.getPublicId())
+        .map(existingEntity -> {
+          topicMapper.updateJpaFromDomain(topic, existingEntity, context);
+          existingEntity.setAuthor(authorJpa);
+          existingEntity.setCourse(courseJpa);
 
-    entityToSave.setAuthor(authorJpa);
-    entityToSave.setCourse(courseJpa);
+          TopicJpa saved = topicRepository.save(existingEntity);
+          return topicMapper.toDomain(saved, context);
+        }).orElseGet(() -> {
 
-    if (existsByTitleAndCourseName(entityToSave.getTitle(),
-        entityToSave.getCourse().getCourseName())) {
-      throw new DuplicateTopicException("This topic already exists");
-    } else {
-      entityToSave = topicRepository.save(entityToSave);
-    }
+          if (existsByTitleAndCourseName(topic.getTitle(), topic.getCourse().getCourseName())) {
+            throw new DuplicateTopicException("This topic already exists");
+          }
 
-    return topicMapper.toDomain(entityToSave, context);
+          TopicJpa newEntity = topicMapper.toJpa(topic, context);
+          newEntity.setAuthor(authorJpa);
+          newEntity.setCourse(courseJpa);
+
+          TopicJpa saved = topicRepository.save(newEntity);
+          return topicMapper.toDomain(saved, context);
+
+        });
   }
 
   @Override
@@ -75,6 +85,11 @@ public class TopicPersistenceAdapter implements
   public Optional<Topic> byPublicId(UUID publicId) {
     return topicRepository.byPublicId(publicId)
         .map(x -> topicMapper.toDomain(x, context));
+  }
+
+  @Override
+  public Boolean existsByPublicId(UUID publicId) {
+    return topicRepository.existsByPublicId(publicId);
   }
 
 }

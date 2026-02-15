@@ -9,16 +9,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.kdbf.forum.adapters.in.web.dto.CreateTopicDto;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
+import com.kdbf.forum.adapters.in.web.dto.UpdateTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
+import com.kdbf.forum.application.domain.service.UpdateTopicService;
 import com.kdbf.forum.application.port.in.FindTopicByIdQuery;
 import com.kdbf.forum.application.port.in.RegisterTopicCommand;
+import com.kdbf.forum.application.port.in.UpdateTopicCommand;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -30,6 +34,7 @@ public class TopicController {
   private final TopicDtoMapper topicMapper;
   private final RegisterTopicService registerService;
   private final FindTopicsService findService;
+  private final UpdateTopicService updateTopic;
 
   @PostMapping("/topicos")
   public ResponseEntity<ResponseTopicDto> registerAuthor(
@@ -67,6 +72,24 @@ public class TopicController {
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(response);
+  }
+
+  @PutMapping("/topicos/{publicId}")
+  public ResponseEntity<ResponseTopicDto> updateTopic(
+      @PathVariable("publicId") UUID publicId,
+      @RequestBody @Valid UpdateTopicDto topicDto) {
+
+    UpdateTopicCommand command = new UpdateTopicCommand(
+        publicId,
+        topicDto.title(),
+        topicDto.body());
+    Topic updatedTopic = updateTopic.updateTopic(command);
+    ResponseTopicDto response = topicMapper.toDto(updatedTopic);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(response);
+
   }
 
   private ResponseTopicDto processAndSaveTopic(CreateTopicDto topicDto) {

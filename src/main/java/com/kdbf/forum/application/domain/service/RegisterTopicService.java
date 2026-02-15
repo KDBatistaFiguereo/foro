@@ -21,6 +21,7 @@ public class RegisterTopicService implements RegisterTopicUseCase {
   private final TopicsExistencePort existencePort;
 
   @Override
+  // TODO: Update RegisterTopicCommand command to have newer fields
   public Topic registerTopic(RegisterTopicCommand command) {
     if (existencePort.existsByTitleAndCourseName(command.title(), command.course())) {
       throw new DuplicateTopicException("A topic with this title exists in this course");
