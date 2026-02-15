@@ -1,6 +1,7 @@
 package com.kdbf.forum.adapters.out.persistence.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,13 @@ public interface TopicRepository extends JpaRepository<TopicJpa, Long> {
         AND t.course.courseName = :courseName
       """)
   public Optional<TopicJpa> byTitleAndCourse(String title, String courseName);
+
+  @Query("""
+        SELECT t
+        FROM TopicJpa t
+        WHERE t.publicId = :publicId
+      """)
+  public Optional<TopicJpa> byPublicId(UUID publicId);
 
   @Query("""
       SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END

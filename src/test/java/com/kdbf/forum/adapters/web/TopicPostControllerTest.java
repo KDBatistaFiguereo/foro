@@ -1,8 +1,5 @@
 package com.kdbf.forum.adapters.web;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +11,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.kdbf.forum.adapters.in.web.TopicController;
-import com.kdbf.forum.adapters.in.web.dto.AuthorDto;
-import com.kdbf.forum.adapters.in.web.dto.CourseDto;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
-import com.kdbf.forum.application.domain.model.entity.Author;
-import com.kdbf.forum.application.domain.model.entity.Course;
+import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
+import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
-import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 
@@ -53,26 +47,8 @@ public class TopicPostControllerTest {
   @Test
   @DisplayName("Should return 201 if succesful")
   public void registerSuccess() throws Exception {
-    UUID publicId = UUID.randomUUID();
-    String title = "Post requests";
-    String body = "¿Whats the difference between post and get?";
-    String username = "confused_web_dev";
-    String courseName = "Http fundamentals";
-    LocalDateTime creationDate = LocalDateTime.now();
-    TopicStatus topicStatus = TopicStatus.DRAFT;
-    Author author = new Author(username);
-    Course course = new Course(courseName);
-    Topic savedTopic = Topic.reconstitute(course, publicId, title, body, author, creationDate, topicStatus);
-    AuthorDto authorDto = new AuthorDto(username);
-    CourseDto courseDto = new CourseDto(courseName);
-    ResponseTopicDto responseDto = new ResponseTopicDto(
-        publicId,
-        title,
-        body,
-        authorDto,
-        courseDto,
-        LocalDateTime.now(),
-        TopicStatus.DRAFT);
+    Topic savedTopic = TopicMother.sample();
+    ResponseTopicDto responseDto = TopicDtoMother.sample(savedTopic);
 
     when(registerService.registerTopic(any()))
         .thenReturn(savedTopic);
@@ -86,18 +62,21 @@ public class TopicPostControllerTest {
           "author": { "username": "%s" },
           "course": { "courseName": "%s" }
         }
-        """.formatted(title, body, username, courseName);
+        """.formatted(savedTopic.getTitle(),
+        savedTopic.getBody(),
+        savedTopic.getAuthor().getUsername(),
+        savedTopic.getCourse().getCourseName());
 
     mockMvc.perform(post("/topicos")
         .with(csrf())
         .contentType(MediaType.APPLICATION_JSON)
         .content(json))
         .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.publicId").value(publicId.toString()))
-        .andExpect(jsonPath("$.title").value(title))
-        .andExpect(jsonPath("$.body").value(body))
-        .andExpect(jsonPath("$.author.username").value(username))
-        .andExpect(jsonPath("$.course.courseName").value(courseName))
+        .andExpect(jsonPath("$.publicId").value(responseDto.publicId().toString()))
+        .andExpect(jsonPath("$.title").value(responseDto.title()))
+        .andExpect(jsonPath("$.body").value(responseDto.body()))
+        .andExpect(jsonPath("$.author.username").value(responseDto.author().username()))
+        .andExpect(jsonPath("$.course.courseName").value(responseDto.course().courseName()))
         .andDo(print());
   }
 

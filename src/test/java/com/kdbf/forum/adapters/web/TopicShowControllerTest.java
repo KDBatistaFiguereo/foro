@@ -1,6 +1,5 @@
 package com.kdbf.forum.adapters.web;
 
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +17,18 @@ import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
-import static org.mockito.Mockito.when;
 
 @WebMvcTest(TopicController.class)
 @ActiveProfiles("test")
 @WithMockUser
-public class TopicShowAllControllerTest {
+public class TopicShowControllerTest {
 
   @Autowired
   MockMvc mockMvc;
@@ -43,20 +43,19 @@ public class TopicShowAllControllerTest {
   private TopicDtoMapper topicMapper;
 
   @Test
-  @DisplayName("Should return 200 and list of topics")
-  public void shouldReturnList() throws Exception {
-
+  @DisplayName("Should return 200 and the topic")
+  public void shouldReturnTopic() throws Exception {
     Topic topic = TopicMother.sample();
-    ResponseTopicDto responseDto = TopicDtoMother.sample(topic);
+    ResponseTopicDto response = TopicDtoMother.sample(topic);
 
-    when(findTopics.findAllTopics()).thenReturn(List.of(topic));
-    when(topicMapper.toDto(topic)).thenReturn(responseDto);
+    when(findTopics.findTopicById(any())).thenReturn(topic);
+    when(topicMapper.toDto(topic)).thenReturn(response);
 
-    mockMvc.perform(get("/topicos"))
+    mockMvc.perform(get("/topicos/" + topic.getPublicId().toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].publicId").value(responseDto.publicId().toString()))
-        .andExpect(jsonPath("$[0].title").value(responseDto.title()))
-        .andExpect(jsonPath("$[0].body").value(responseDto.body()))
+        .andExpect(jsonPath("$.publicId").value(response.publicId().toString()))
+        .andExpect(jsonPath("$.title").value(response.title()))
+        .andExpect(jsonPath("$.body").value(response.body()))
         .andDo(print());
 
   }

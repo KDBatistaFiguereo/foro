@@ -1,6 +1,8 @@
 package com.kdbf.forum.adapters.out.persistence;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
@@ -67,6 +69,12 @@ public class TopicPersistenceAdapter implements
     return topicRepository.findAll().stream()
         .map(x -> topicMapper.toDomain(x, context))
         .toList();
+  }
+
+  @Override
+  public Optional<Topic> byPublicId(UUID publicId) {
+    return topicRepository.byPublicId(publicId)
+        .map(x -> topicMapper.toDomain(x, context));
   }
 
 }
