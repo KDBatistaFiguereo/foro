@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
+import com.kdbf.forum.application.domain.model.exception.AlreadyDeletedException;
 import com.kdbf.forum.application.domain.model.exception.InvalidTitleException;
 import com.kdbf.forum.application.domain.model.exception.NoBodyException;
 
@@ -18,7 +19,7 @@ public class Topic {
   private final Course course;
   private final LocalDateTime creationDate;
 
-  private final TopicStatus status;
+  private TopicStatus status;
 
   private Topic(final Course course, final UUID publicId, final String title, final String body, final Author author,
       LocalDateTime creationDate, TopicStatus status) {
@@ -36,6 +37,13 @@ public class Topic {
     this.author = author;
     this.creationDate = creationDate;
     this.status = status;
+  }
+
+  public void delete() {
+    if (this.status == TopicStatus.DELETED) {
+      throw new AlreadyDeletedException("Cant delete an already deleted topic");
+    }
+    this.status = TopicStatus.DELETED;
   }
 
   // TODO: refactor to builder pattern

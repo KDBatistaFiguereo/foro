@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +18,11 @@ import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.dto.UpdateTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.service.DeleteTopicService;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.domain.service.UpdateTopicService;
+import com.kdbf.forum.application.port.in.DeleteTopicCommand;
 import com.kdbf.forum.application.port.in.FindTopicByIdQuery;
 import com.kdbf.forum.application.port.in.RegisterTopicCommand;
 import com.kdbf.forum.application.port.in.UpdateTopicCommand;
@@ -35,6 +38,7 @@ public class TopicController {
   private final RegisterTopicService registerService;
   private final FindTopicsService findService;
   private final UpdateTopicService updateTopic;
+  private final DeleteTopicService deleteTopic;
 
   @PostMapping("/topicos")
   public ResponseEntity<ResponseTopicDto> registerAuthor(
@@ -90,6 +94,16 @@ public class TopicController {
         .status(HttpStatus.OK)
         .body(response);
 
+  }
+
+  @DeleteMapping("/topicos/{publicId}")
+  public ResponseEntity<Void> deleteTopic(@PathVariable("publicId") UUID publicId) {
+    DeleteTopicCommand command = new DeleteTopicCommand(publicId);
+    deleteTopic.deleteTopic(command);
+
+    return ResponseEntity
+        .noContent()
+        .build();
   }
 
   private ResponseTopicDto processAndSaveTopic(CreateTopicDto topicDto) {
