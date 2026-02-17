@@ -8,6 +8,10 @@ spring:
   config:
     activate:
       on-profile: dev
+  security:
+    user:
+      name: ${SECURITY_NAME}
+      password: ${SECURITY_PASSWORD}
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}

@@ -21,7 +21,7 @@ public class AuthorJpa {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column
+  @Column(name = "user_name")
   private String username;
 
   public AuthorJpa(String username) {
