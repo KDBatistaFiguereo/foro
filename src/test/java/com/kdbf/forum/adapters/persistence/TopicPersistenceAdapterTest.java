@@ -11,6 +11,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.kdbf.forum.adapters.out.persistence.TopicPersistenceAdapter;
@@ -24,11 +26,13 @@ import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
+import com.kdbf.forum.infraestructure.security.SecurityConfig;
 
 import jakarta.transaction.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ActiveProfiles("test")
+@Import(SecurityConfig.class)
 public class TopicPersistenceAdapterTest {
 
   @Autowired
@@ -43,10 +47,15 @@ public class TopicPersistenceAdapterTest {
   @Autowired
   TopicPersistenceAdapter topicAdapter;
 
+  @Autowired
+  PasswordEncoder passwordEncoder;
+
   @Test
   @Transactional
   public void shouldCreateNewTopic() {
-    AuthorJpa authorJpa = new AuthorJpa("junior_coder");
+    AuthorJpa authorJpa = new AuthorJpa("junior_coder",
+        "junior@gmail.com",
+        passwordEncoder.encode("securePassword"));
     CourseJpa courseJpa = new CourseJpa("CS-014");
     authorRepository.save(authorJpa);
     courseRepository.save(courseJpa);
@@ -69,7 +78,9 @@ public class TopicPersistenceAdapterTest {
   @Test
   @Transactional
   public void shouldUpdateTopic() {
-    AuthorJpa authorJpa = new AuthorJpa("new_coder");
+    AuthorJpa authorJpa = new AuthorJpa("new_coder",
+        "newcoder@gmail.com",
+        passwordEncoder.encode("securePassword"));
     CourseJpa courseJpa = new CourseJpa("CS-015");
     TopicJpa topicJpa = new TopicJpa(
         UUID.randomUUID(),

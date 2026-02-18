@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
@@ -22,4 +23,6 @@ public interface AuthorRepository extends JpaRepository<AuthorJpa, Long> {
       WHERE a.username = :username
         """)
   public Boolean exists(String username);
+
+  public UserDetails findByLogin(String login);
 }

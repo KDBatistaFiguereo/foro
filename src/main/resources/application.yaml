@@ -17,6 +17,14 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  api:
+    security:
+      token:
+        secret: ${TOKEN_SECRET}
+      seed:
+        user:
+          email: ${SEED_USER_EMAIL}
+          password: ${SEED_USER_PASS}
 ---
 spring:
   config:

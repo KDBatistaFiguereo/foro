@@ -22,6 +22,7 @@ import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
 import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
 import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.service.DeleteTopicService;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.domain.service.UpdateTopicService;
@@ -47,6 +48,9 @@ public class TopicUpdateControllerTest {
 
   @MockitoBean
   private TopicDtoMapper topicMapper;
+
+  @MockitoBean
+  private DeleteTopicService deleteTopic;
 
   @Test
   public void shouldUpdateTopic() throws Exception {

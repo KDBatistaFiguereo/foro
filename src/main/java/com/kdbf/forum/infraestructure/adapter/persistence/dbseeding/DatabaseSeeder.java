@@ -1,10 +1,12 @@
-package com.kdbf.forum.common.seeder;
+package com.kdbf.forum.infraestructure.adapter.persistence.dbseeding;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
@@ -30,12 +32,23 @@ public class DatabaseSeeder implements CommandLineRunner {
   @Autowired
   private TopicRepository topicRepository;
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
+  @Value("${spring.api.security.seed.user.email}")
+  private String login;
+  @Value("${spring.api.security.seed.user.password}")
+  String password;
+
   @Override
   public void run(String... args) throws Exception {
     AuthorJpa authorJpa;
     CourseJpa courseJpa;
+
     if (authorRepository.count() == 0) {
-      authorJpa = new AuthorJpa("Anonymous");
+      authorJpa = new AuthorJpa("Anonymous",
+          login,
+          passwordEncoder.encode(password));
       authorRepository.save(authorJpa);
       log.info("Author {} created", authorJpa.getUsername());
     } else {

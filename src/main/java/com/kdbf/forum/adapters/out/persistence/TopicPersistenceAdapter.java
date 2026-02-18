@@ -40,20 +40,18 @@ public class TopicPersistenceAdapter implements
   @Transactional
   public Topic persistTopic(Topic topic) {
 
-    AuthorJpa authorJpa = authorRepository.byUserName(topic.getAuthor().getUsername())
-        .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
-    CourseJpa courseJpa = courseRepository.byCourseName(topic.getCourse().getCourseName())
-        .orElseThrow(() -> new NonExistantCourseException("The course doesn't exist"));
-    // TODO: defend against updating to an already existing topic
     return topicRepository.byPublicId(topic.getPublicId())
         .map(existingEntity -> {
           topicMapper.updateJpaFromDomain(topic, existingEntity, context);
-          existingEntity.setAuthor(authorJpa);
-          existingEntity.setCourse(courseJpa);
 
           TopicJpa saved = topicRepository.save(existingEntity);
           return topicMapper.toDomain(saved, context);
         }).orElseGet(() -> {
+
+          AuthorJpa authorJpa = authorRepository.byUserName(topic.getAuthor().getUsername())
+              .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
+          CourseJpa courseJpa = courseRepository.byCourseName(topic.getCourse().getCourseName())
+              .orElseThrow(() -> new NonExistantCourseException("The course doesn't exist"));
 
           if (existsByTitleAndCourseName(topic.getTitle(), topic.getCourse().getCourseName())) {
             throw new DuplicateTopicException("This topic already exists");

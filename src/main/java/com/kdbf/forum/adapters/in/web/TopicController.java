@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kdbf.forum.adapters.in.web.dto.CreateTopicDto;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
@@ -30,7 +31,7 @@ import com.kdbf.forum.application.port.in.UpdateTopicCommand;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
-@Controller
+@RestController
 @AllArgsConstructor
 public class TopicController {
 
