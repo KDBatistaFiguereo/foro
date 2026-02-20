@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
-import com.kdbf.forum.infraestructure.adapter.web.auth.TokenService;
+import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 public class SecurityFilter extends OncePerRequestFilter {
 
   TokenService tokenService;
+
   AuthorRepository authorRepository;
 
   @Override
@@ -30,8 +31,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     if (tokenJwt != null) {
       var subject = tokenService.getSubject(tokenJwt);
-      var usuario = authorRepository.findByLogin(subject);
-      var auth = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+      var usuario = authorRepository.findByUsername(subject);
+      var auth = new UsernamePasswordAuthenticationToken(usuario, null, usuario.get().getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(auth);
     }
 

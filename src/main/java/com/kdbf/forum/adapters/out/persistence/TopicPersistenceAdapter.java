@@ -48,7 +48,7 @@ public class TopicPersistenceAdapter implements
           return topicMapper.toDomain(saved, context);
         }).orElseGet(() -> {
 
-          AuthorJpa authorJpa = authorRepository.byUserName(topic.getAuthor().getUsername())
+          AuthorJpa authorJpa = authorRepository.findByDisplayName(topic.getAuthor().getDisplayName())
               .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
           CourseJpa courseJpa = courseRepository.byCourseName(topic.getCourse().getCourseName())
               .orElseThrow(() -> new NonExistantCourseException("The course doesn't exist"));

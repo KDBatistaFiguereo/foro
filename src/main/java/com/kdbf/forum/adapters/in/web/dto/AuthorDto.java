@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record AuthorDto(
-    @NotNull @NotBlank String username) {
+    @NotNull @NotBlank String displayName) {
 }

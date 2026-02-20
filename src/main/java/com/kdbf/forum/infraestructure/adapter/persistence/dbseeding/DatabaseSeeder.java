@@ -36,7 +36,7 @@ public class DatabaseSeeder implements CommandLineRunner {
   private PasswordEncoder passwordEncoder;
 
   @Value("${spring.api.security.seed.user.email}")
-  private String login;
+  private String username;
   @Value("${spring.api.security.seed.user.password}")
   String password;
 
@@ -47,10 +47,10 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     if (authorRepository.count() == 0) {
       authorJpa = new AuthorJpa("Anonymous",
-          login,
+          username,
           passwordEncoder.encode(password));
       authorRepository.save(authorJpa);
-      log.info("Author {} created", authorJpa.getUsername());
+      log.info("Author {} created", authorJpa.getDisplayName());
     } else {
       authorJpa = authorRepository.findAll().get(0);
     }

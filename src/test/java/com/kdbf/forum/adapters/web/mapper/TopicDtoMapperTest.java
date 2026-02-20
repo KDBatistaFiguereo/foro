@@ -58,7 +58,7 @@ public class TopicDtoMapperTest {
     assertNotNull(topic.getPublicId());
     assertEquals(topicDto.title(), topic.getTitle());
     assertEquals(topicDto.body(), topic.getBody());
-    assertEquals(topicDto.author().username(), topic.getAuthor().getUsername());
+    assertEquals(topicDto.author().displayName(), topic.getAuthor().getDisplayName());
     assertEquals(topicDto.course().courseName(), topic.getCourse().getCourseName());
   }
 
@@ -79,7 +79,7 @@ public class TopicDtoMapperTest {
     assertEquals(topic.getTitle(), topicDto.title());
     assertEquals(topic.getBody(), topicDto.body());
     assertEquals(topic.getCourse().getCourseName(), topicDto.course().courseName());
-    assertEquals(topic.getAuthor().getUsername(), topicDto.author().username());
+    assertEquals(topic.getAuthor().getDisplayName(), topicDto.author().displayName());
   }
 
 }

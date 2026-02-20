@@ -68,12 +68,12 @@ public class TopicPostControllerTest {
         {
           "title": "%s",
           "body": "%s",
-          "author": { "username": "%s" },
+          "author": { "displayName": "%s" },
           "course": { "courseName": "%s" }
         }
         """.formatted(savedTopic.getTitle(),
         savedTopic.getBody(),
-        savedTopic.getAuthor().getUsername(),
+        savedTopic.getAuthor().getDisplayName(),
         savedTopic.getCourse().getCourseName());
 
     mockMvc.perform(post("/topicos")
@@ -84,7 +84,7 @@ public class TopicPostControllerTest {
         .andExpect(jsonPath("$.publicId").value(responseDto.publicId().toString()))
         .andExpect(jsonPath("$.title").value(responseDto.title()))
         .andExpect(jsonPath("$.body").value(responseDto.body()))
-        .andExpect(jsonPath("$.author.username").value(responseDto.author().username()))
+        .andExpect(jsonPath("$.author.displayName").value(responseDto.author().displayName()))
         .andExpect(jsonPath("$.course.courseName").value(responseDto.course().courseName()))
         .andDo(print());
   }

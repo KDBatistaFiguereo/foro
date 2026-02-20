@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth;
+package com.kdbf.forum.infraestructure.adapter.web.auth.service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class TokenService {
       var algorithm = Algorithm.HMAC256(secret);
       return JWT.create()
           .withIssuer("forum")
-          .withSubject(author.getLogin())
+          .withSubject(author.getUsername())
           .withExpiresAt(expirationDate())
           .sign(algorithm);
 

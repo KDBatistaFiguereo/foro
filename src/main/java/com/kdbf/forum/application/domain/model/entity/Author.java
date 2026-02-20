@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class Author {
 
-  String username;
+  String displayName;
 
 }

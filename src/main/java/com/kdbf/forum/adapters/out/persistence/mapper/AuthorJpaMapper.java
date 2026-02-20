@@ -15,7 +15,7 @@ public abstract class AuthorJpaMapper {
 
   // avoid the jpa fields from being nulled
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "login", ignore = true)
+  @Mapping(target = "username", ignore = true)
   @Mapping(target = "hashedPassword", ignore = true)
   abstract AuthorJpa toJpa(Author author, @Context CycleAvoidingMappingContext context);
 

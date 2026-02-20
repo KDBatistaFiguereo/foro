@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,26 +23,26 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+// UserDetails manages details about users in Spring security
 public class AuthorJpa implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "user_name")
-  private String username;
+  @Column(name = "display_name", nullable = false)
+  private String displayName;
 
   @Column(unique = true, nullable = false, length = 100)
-  private String login; // email
+  private String username; // email
 
   @Column(name = "password", nullable = false, length = 255)
   private String hashedPassword;
 
-  public AuthorJpa(String username, String login, String hashedPassword) {
+  public AuthorJpa(String displayName, String username, String hashedPassword) {
+    this.displayName = displayName;
     this.username = username;
-    this.login = login;
     this.hashedPassword = hashedPassword;
-
   }
 
   @Override
@@ -72,11 +73,6 @@ public class AuthorJpa implements UserDetails {
   @Override
   public String getPassword() {
     return this.hashedPassword;
-  }
-
-  @Override
-  public String getUsername() {
-    return this.login;
   }
 
   @Override

@@ -69,7 +69,7 @@ public class TopicPersistenceAdapterTest {
     assertNotNull(savedTopic.getPublicId());
     assertEquals(topic.getPublicId(), savedTopic.getPublicId());
     assertEquals(topic.getTitle(), savedTopic.getTitle());
-    assertEquals(topic.getAuthor().getUsername(), savedTopic.getAuthor().getUsername());
+    assertEquals(topic.getAuthor().getDisplayName(), savedTopic.getAuthor().getDisplayName());
     assertEquals(topic.getBody(), savedTopic.getBody());
     assertEquals(topic.getCourse().getCourseName(), savedTopic.getCourse().getCourseName());
 

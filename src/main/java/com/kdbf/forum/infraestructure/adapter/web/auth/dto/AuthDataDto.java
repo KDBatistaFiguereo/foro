@@ -1,9 +1,9 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth;
+package com.kdbf.forum.infraestructure.adapter.web.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
 public record AuthDataDto(
-    @NotBlank String login, // email
+    @NotBlank String username, // email
     @NotBlank String password) {
 
 }

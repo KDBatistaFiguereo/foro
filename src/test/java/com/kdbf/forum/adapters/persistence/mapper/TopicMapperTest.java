@@ -78,7 +78,7 @@ public class TopicMapperTest {
     assertEquals(topicJpa.getPublicId(), topic.getPublicId());
     assertEquals(topicJpa.getTitle(), topic.getTitle());
     assertEquals(topicJpa.getBody(), topic.getBody());
-    assertEquals(topicJpa.getAuthor().getUsername(), topic.getAuthor().getUsername());
+    assertEquals(topicJpa.getAuthor().getDisplayName(), topic.getAuthor().getDisplayName());
     assertEquals(topicJpa.getCourse().getCourseName(), topic.getCourse().getCourseName());
     assertNotNull(topic.getAuthor());
     assertNotNull(topic.getCourse());
@@ -100,7 +100,7 @@ public class TopicMapperTest {
     assertEquals(topic.getTitle(), topicJpa.getTitle());
     assertEquals(topic.getBody(), topicJpa.getBody());
     assertEquals(topic.getCourse().getCourseName(), topicJpa.getCourse().getCourseName());
-    assertEquals(topic.getAuthor().getUsername(), topicJpa.getAuthor().getUsername());
+    assertEquals(topic.getAuthor().getDisplayName(), topicJpa.getAuthor().getDisplayName());
     assertNotNull(topicJpa.getAuthor());
     assertNotNull(topicJpa.getCourse());
   }
