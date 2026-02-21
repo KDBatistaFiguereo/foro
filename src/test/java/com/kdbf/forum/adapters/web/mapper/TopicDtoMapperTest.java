@@ -23,6 +23,7 @@ import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapperImpl;
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
@@ -45,7 +46,7 @@ public class TopicDtoMapperTest {
   @Test
   public void shouldConvertToDomainCreate() {
     AuthorDto authorDto = new AuthorDto("reluctant_mapper");
-    CourseDto courseDto = new CourseDto("Mapping for dummies");
+    CourseDto courseDto = new CourseDto("Mapping for dummies", "MAP-0014");
     CreateTopicDto topicDto = new CreateTopicDto(
         "Do we really need to write so many mappers?",
         "Cant i just let the user talk to the db directly? duh",
@@ -65,7 +66,7 @@ public class TopicDtoMapperTest {
   @Test
   public void shouldConvertToDtoResponse() {
     Author author = new Author("reluctant_mapper");
-    Course course = new Course("Mapping for dummies");
+    Course course = new Course("Mapping for dummies", new CourseCode("MAP-0014"));
     Topic topic = Topic.newInstance(
         course,
         "Do we really need to write so many mappers?",

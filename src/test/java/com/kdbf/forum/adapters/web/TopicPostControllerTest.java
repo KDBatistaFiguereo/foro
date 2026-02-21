@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.kdbf.forum.adapters.in.web.TopicController;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
+import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
 import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
 import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
@@ -20,6 +21,7 @@ import com.kdbf.forum.application.domain.service.DeleteTopicService;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.domain.service.UpdateTopicService;
+import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,6 +54,12 @@ public class TopicPostControllerTest {
   @MockitoBean
   private DeleteTopicService deleteTopic;
 
+  @MockitoBean
+  private TokenService tokenService;
+
+  @MockitoBean
+  private AuthorRepository authorRepository;
+
   @Test
   @DisplayName("Should return 201 if succesful")
   public void registerSuccess() throws Exception {
@@ -69,12 +77,13 @@ public class TopicPostControllerTest {
           "title": "%s",
           "body": "%s",
           "author": { "displayName": "%s" },
-          "course": { "courseName": "%s" }
+          "course": { "courseName": "%s", "courseCode": "%s" }
         }
         """.formatted(savedTopic.getTitle(),
         savedTopic.getBody(),
         savedTopic.getAuthor().getDisplayName(),
-        savedTopic.getCourse().getCourseName());
+        savedTopic.getCourse().getCourseName(),
+        savedTopic.getCourse().getCourseCode().code());
 
     mockMvc.perform(post("/topicos")
         .with(csrf())

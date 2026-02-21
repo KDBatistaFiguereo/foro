@@ -4,6 +4,7 @@ public record RegisterTopicCommand(
     String title,
     String body,
     String author,
-    String course) {
+    String courseName,
+    String courseCode) {
 
 }

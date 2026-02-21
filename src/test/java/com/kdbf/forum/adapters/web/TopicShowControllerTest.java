@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.kdbf.forum.adapters.in.web.TopicController;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
+import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
 import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
 import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
@@ -19,6 +20,7 @@ import com.kdbf.forum.application.domain.service.DeleteTopicService;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.domain.service.UpdateTopicService;
+import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -49,6 +51,12 @@ public class TopicShowControllerTest {
 
   @MockitoBean
   private DeleteTopicService deleteTopic;
+
+  @MockitoBean
+  private TokenService tokenService;
+
+  @MockitoBean
+  private AuthorRepository authorRepository;
 
   @Test
   @DisplayName("Should return 200 and the topic")

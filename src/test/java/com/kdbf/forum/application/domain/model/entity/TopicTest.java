@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.exception.InvalidTitleException;
 import com.kdbf.forum.application.domain.model.exception.NoBodyException;
 
@@ -18,7 +19,8 @@ public class TopicTest {
     String title = "What is a code smell?";
     String body = "I always see this term thrown around here. Any help?";
     Author author = new Author("confused_programmer");
-    Course course = new Course("Programming 014");
+    Course course = new Course("Programming 014",
+        new CourseCode("PRO-0014"));
 
     Topic topic = Topic.newInstance(course, title, body, author);
 
@@ -34,7 +36,8 @@ public class TopicTest {
     String title = "What is a code smell?";
     String body = "I always see this term thrown around here. Any help?";
     Author author = new Author("confused_programmer");
-    Course course = new Course("Programming 014");
+    Course course = new Course("Programming 014",
+        new CourseCode("PRO-0014"));
 
     Topic topic = Topic.newInstance(course, title, body, author);
 
@@ -57,7 +60,8 @@ public class TopicTest {
   @Test
   public void shouldNotAllowEmptyTitle() {
     InvalidTitleException exception = assertThrows(InvalidTitleException.class, () -> {
-      Topic.newInstance(new Course("CS-104"),
+      Topic.newInstance(new Course("Principles of Computer science",
+          new CourseCode("PSC-0150")),
           "",
           "Hello guys",
           new Author("empty_title_lover"));
@@ -69,7 +73,8 @@ public class TopicTest {
   @Test
   public void shouldNotAllowEmptyBody() {
     NoBodyException exception = assertThrows(NoBodyException.class, () -> {
-      Topic.newInstance(new Course("CS-202"),
+      Topic.newInstance(new Course("Software engineering",
+          new CourseCode("ENG-0280")),
           "Do i really need to add a body to my post?",
           "",
           new Author("text_body_hater"));

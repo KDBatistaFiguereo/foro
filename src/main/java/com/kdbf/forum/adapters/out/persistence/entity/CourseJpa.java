@@ -1,6 +1,13 @@
 package com.kdbf.forum.adapters.out.persistence.entity;
 
+import org.hibernate.annotations.EmbeddedColumnNaming;
+
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
+
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +31,15 @@ public class CourseJpa {
   @Column(name = "course_name")
   private String courseName;
 
-  public CourseJpa(String courseName) {
+  @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name = "code", column = @Column(name = "course_code"))
+  })
+  private CourseCode courseCode;
+
+  public CourseJpa(String courseName, CourseCode courseCode) {
     this.courseName = courseName;
+    this.courseCode = courseCode;
   }
 
 }

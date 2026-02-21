@@ -10,8 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,15 +27,14 @@ import com.kdbf.forum.adapters.out.persistence.utility.CycleAvoidingMappingConte
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
-import com.kdbf.forum.infraestructure.security.SecurityConfig;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { TopicJpaMapperImpl.class,
     AuthorJpaMapperImpl.class,
     CourseJpaMapperImpl.class })
 @ActiveProfiles("test")
-@Import(SecurityConfig.class)
 public class TopicMapperTest {
 
   @Autowired
@@ -48,9 +45,6 @@ public class TopicMapperTest {
 
   @Autowired
   private TopicJpaMapper topicMapper;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
 
   private CycleAvoidingMappingContext context;
 
@@ -67,8 +61,8 @@ public class TopicMapperTest {
         "I want to understand mapping",
         new AuthorJpa("new programmer",
             "newprogrammaer@gmail.com",
-            passwordEncoder.encode("securePassword")),
-        new CourseJpa("CS-014"),
+            "$2a$12$lrcBEEymSMC5ipTNgpz8gOxCMU/VAiuaXEgqDka1VCOJYKVPE.uhe"),
+        new CourseJpa("Computer Science Fundamentals", new CourseCode("CPS-0014")),
         TopicStatus.DRAFT,
         LocalDateTime.now());
 
@@ -88,7 +82,7 @@ public class TopicMapperTest {
   public void shouldConvertToJpa() {
 
     Topic topic = Topic.newInstance(
-        new Course("CS-014"),
+        new Course("Introduction to Databases", new CourseCode("DBA-0014")),
         "How does jpa work",
         "I cant wrap my head around it",
         new Author("persistence_hater"));

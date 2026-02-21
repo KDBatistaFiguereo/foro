@@ -35,11 +35,12 @@ public class RegisterTopicServiceTest {
     RegisterTopicCommand command = new RegisterTopicCommand("Duplicate title",
         "Hello",
         "duplicate_enjoyer",
-        "CS-014");
+        "Introduction to Software Engineering",
+        "SFE-0987");
 
     when(topicExistence.existsByTitleAndCourseName(
         command.title(),
-        command.course()))
+        command.courseName()))
         .thenReturn(true);
     assertThrows(DuplicateTopicException.class, () -> {
       registerService.registerTopic(command);

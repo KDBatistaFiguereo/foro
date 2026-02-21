@@ -12,7 +12,8 @@ public class TopicDtoMother {
         topic.getTitle(),
         topic.getBody(),
         new AuthorDto(topic.getAuthor().getDisplayName()),
-        new CourseDto(topic.getCourse().getCourseName()),
+        new CourseDto(topic.getCourse().getCourseName(),
+            topic.getCourse().getCourseCode().code()),
         topic.getCreationDate(),
         topic.getStatus());
   }

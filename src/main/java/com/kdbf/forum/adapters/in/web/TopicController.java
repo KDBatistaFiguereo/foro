@@ -111,7 +111,8 @@ public class TopicController {
         topicDto.title(),
         topicDto.body(),
         topicDto.author().displayName(),
-        topicDto.course().courseName());
+        topicDto.course().courseName(),
+        topicDto.course().courseCode());
     Topic savedTopic = registerService.registerTopic(command);
 
     ResponseTopicDto responseDto = topicMapper.toDto(savedTopic);

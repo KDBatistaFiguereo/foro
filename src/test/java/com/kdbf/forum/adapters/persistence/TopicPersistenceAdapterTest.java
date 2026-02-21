@@ -3,36 +3,44 @@ package com.kdbf.forum.adapters.persistence;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.kdbf.forum.adapters.out.persistence.TopicPersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
 import com.kdbf.forum.adapters.out.persistence.entity.CourseJpa;
 import com.kdbf.forum.adapters.out.persistence.entity.TopicJpa;
+import com.kdbf.forum.adapters.out.persistence.mapper.TopicJpaMapper;
 import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
 import com.kdbf.forum.adapters.out.persistence.repository.CourseRepository;
 import com.kdbf.forum.adapters.out.persistence.repository.TopicRepository;
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
-import com.kdbf.forum.infraestructure.security.SecurityConfig;
+import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
+import com.kdbf.forum.infraestructure.security.SecurityFilter;
 
 import jakarta.transaction.Transactional;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ActiveProfiles("test")
-@Import(SecurityConfig.class)
+@SpringBootTest
+@Testcontainers
 public class TopicPersistenceAdapterTest {
 
   @Autowired
@@ -47,21 +55,61 @@ public class TopicPersistenceAdapterTest {
   @Autowired
   TopicPersistenceAdapter topicAdapter;
 
-  @Autowired
-  PasswordEncoder passwordEncoder;
+  @MockitoBean
+  private TokenService tokenService;
+
+  @MockitoBean
+  private SecurityFilter securityFilter;
+
+  @MockitoBean
+  private TopicJpaMapper topicJpaMapper;
+
+  @BeforeEach
+  void setUp() {
+    when(topicJpaMapper.toDomain(any(), any())).thenAnswer(invocation -> {
+      TopicJpa jpa = invocation.getArgument(0);
+      return Topic.reconstitute(
+          new Course(jpa.getCourse().getCourseName(), jpa.getCourse().getCourseCode()),
+          jpa.getPublicId(),
+          jpa.getTitle(),
+          jpa.getBody(),
+          new Author(jpa.getAuthor().getDisplayName()),
+          jpa.getCreationDate(),
+          jpa.getStatus());
+    });
+    when(topicJpaMapper.toJpa(any(), any())).thenAnswer(invocation -> {
+      Topic topic = invocation.getArgument(0);
+      return new TopicJpa(
+          topic.getPublicId(),
+          topic.getTitle(),
+          topic.getBody(),
+          null,
+          null,
+          topic.getStatus(),
+          topic.getCreationDate());
+    });
+    doAnswer(invocation -> {
+      Topic topic = invocation.getArgument(0);
+      TopicJpa jpa = invocation.getArgument(1);
+      jpa.setTitle(topic.getTitle());
+      jpa.setBody(topic.getBody());
+      jpa.setStatus(topic.getStatus());
+      return null;
+    }).when(topicJpaMapper).updateJpaFromDomain(any(), any(), any());
+  }
 
   @Test
   @Transactional
   public void shouldCreateNewTopic() {
     AuthorJpa authorJpa = new AuthorJpa("junior_coder",
         "junior@gmail.com",
-        passwordEncoder.encode("securePassword"));
-    CourseJpa courseJpa = new CourseJpa("CS-014");
+        "$2a$12$lrcBEEymSMC5ipTNgpz8gOxCMU/VAiuaXEgqDka1VCOJYKVPE.uhe");
+    CourseJpa courseJpa = new CourseJpa("Computer Science Fundamentals", new CourseCode("CSF-0014"));
     authorRepository.save(authorJpa);
     courseRepository.save(courseJpa);
 
     Author author = new Author("junior_coder");
-    Course course = new Course("CS-014");
+    Course course = new Course("Computer Science Fundamentals", new CourseCode("CSF-0014"));
     Topic topic = Topic.newInstance(course, "What is an Optional?", "Im new to this concept", author);
     Topic savedTopic = topicAdapter.persistTopic(topic);
 
@@ -80,8 +128,8 @@ public class TopicPersistenceAdapterTest {
   public void shouldUpdateTopic() {
     AuthorJpa authorJpa = new AuthorJpa("new_coder",
         "newcoder@gmail.com",
-        passwordEncoder.encode("securePassword"));
-    CourseJpa courseJpa = new CourseJpa("CS-015");
+        "$2a$12$lrcBEEymSMC5ipTNgpz8gOxCMU/VAiuaXEgqDka1VCOJYKVPE.uhe");
+    CourseJpa courseJpa = new CourseJpa("Introduction to Java programming", new CourseCode("JAV-0014"));
     TopicJpa topicJpa = new TopicJpa(
         UUID.randomUUID(),
         "What is an Optional?",
@@ -95,7 +143,7 @@ public class TopicPersistenceAdapterTest {
     topicRepository.save(topicJpa);
 
     Author author = new Author("new_coder");
-    Course course = new Course("CS-015");
+    Course course = new Course("Introduction to Java programming", new CourseCode("JAV-0014"));
     Topic topic = Topic.reconstitute(
         course,
         topicJpa.getPublicId(),

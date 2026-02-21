@@ -50,7 +50,7 @@ public class TopicPersistenceAdapter implements
 
           AuthorJpa authorJpa = authorRepository.findByDisplayName(topic.getAuthor().getDisplayName())
               .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
-          CourseJpa courseJpa = courseRepository.byCourseName(topic.getCourse().getCourseName())
+          CourseJpa courseJpa = courseRepository.byCourseCode(topic.getCourse().getCourseCode())
               .orElseThrow(() -> new NonExistantCourseException("The course doesn't exist"));
 
           if (existsByTitleAndCourseName(topic.getTitle(), topic.getCourse().getCourseName())) {

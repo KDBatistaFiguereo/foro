@@ -15,6 +15,7 @@ import com.kdbf.forum.adapters.out.persistence.entity.TopicJpa;
 import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
 import com.kdbf.forum.adapters.out.persistence.repository.CourseRepository;
 import com.kdbf.forum.adapters.out.persistence.repository.TopicRepository;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     }
 
     if (courseRepository.count() == 0) {
-      courseJpa = new CourseJpa("Programming fundamentals");
+      courseJpa = new CourseJpa("Programming fundamentals", new CourseCode("PRG-0014"));
       courseRepository.save(courseJpa);
       log.info("Course {} created", courseJpa.getCourseName());
     } else {

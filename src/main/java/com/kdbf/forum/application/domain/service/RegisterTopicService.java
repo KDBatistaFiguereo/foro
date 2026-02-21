@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.kdbf.forum.application.domain.model.entity.Author;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.exception.DuplicateTopicException;
 import com.kdbf.forum.application.port.in.RegisterTopicCommand;
 import com.kdbf.forum.application.port.in.RegisterTopicUseCase;
@@ -21,14 +22,14 @@ public class RegisterTopicService implements RegisterTopicUseCase {
   private final TopicsExistencePort existencePort;
 
   @Override
-  // TODO: Update RegisterTopicCommand command to have newer fields
   public Topic registerTopic(RegisterTopicCommand command) {
-    if (existencePort.existsByTitleAndCourseName(command.title(), command.course())) {
+    if (existencePort.existsByTitleAndCourseName(command.title(), command.courseName())) {
       throw new DuplicateTopicException("A topic with this title exists in this course");
     }
 
     Topic topic = Topic.newInstance(
-        new Course(command.course()),
+        new Course(command.courseName(),
+            new CourseCode(command.courseCode())),
         command.title(),
         command.body(),
         new Author(command.author()));
