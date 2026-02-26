@@ -18,6 +18,8 @@ public interface CourseRepository extends JpaRepository<CourseJpa, Long> {
   @Query("SELECT c FROM CourseJpa c WHERE c.courseCode = :courseCode")
   public Optional<CourseJpa> byCourseCode(CourseCode courseCode);
 
+  public Boolean existsByCourseCode(CourseCode courseCode);
+
   @Query("""
         SELECT CASE
           WHEN COUNT(c) > 0 THEN true

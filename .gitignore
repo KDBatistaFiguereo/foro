@@ -35,3 +35,5 @@ build/
 
 ##security config for postman
 src/main/java/com/kdbf/forum/common/security/TempSecurityConfig.java
+
+scripts/.*

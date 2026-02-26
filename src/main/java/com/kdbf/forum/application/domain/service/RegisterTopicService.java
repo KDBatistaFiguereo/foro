@@ -23,6 +23,7 @@ public class RegisterTopicService implements RegisterTopicUseCase {
 
   @Override
   public Topic registerTopic(RegisterTopicCommand command) {
+    // TODO change to courseCode
     if (existencePort.existsByTitleAndCourseName(command.title(), command.courseName())) {
       throw new DuplicateTopicException("A topic with this title exists in this course");
     }

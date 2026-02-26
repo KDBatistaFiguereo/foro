@@ -12,7 +12,7 @@ import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 public abstract class CourseDtoMapper {
 
   @Mapping(source = "courseCode", target = "courseCode", qualifiedByName = "codeFromString")
-  abstract Course toDomain(CourseDto courseDto);
+  public abstract Course toDomain(CourseDto courseDto);
 
   @Named("codeFromString")
   protected CourseCode stringToCode(String code) {
@@ -20,7 +20,7 @@ public abstract class CourseDtoMapper {
   }
 
   @Mapping(source = "courseCode", target = "courseCode", qualifiedByName = "stringFromCode")
-  abstract CourseDto toDto(Course course);
+  public abstract CourseDto toDto(Course course);
 
   @Named("stringFromCode")
   protected String codeToString(CourseCode courseCode) {

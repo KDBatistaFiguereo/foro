@@ -18,27 +18,29 @@ import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.dto.UpdateTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.domain.model.entity.Topic;
-import com.kdbf.forum.application.domain.service.DeleteTopicService;
-import com.kdbf.forum.application.domain.service.FindTopicsService;
-import com.kdbf.forum.application.domain.service.RegisterTopicService;
-import com.kdbf.forum.application.domain.service.UpdateTopicService;
 import com.kdbf.forum.application.port.in.DeleteTopicCommand;
+import com.kdbf.forum.application.port.in.DeleteTopicUseCase;
 import com.kdbf.forum.application.port.in.FindTopicByIdQuery;
+import com.kdbf.forum.application.port.in.FindTopicsUseCase;
 import com.kdbf.forum.application.port.in.RegisterTopicCommand;
+import com.kdbf.forum.application.port.in.RegisterTopicUseCase;
 import com.kdbf.forum.application.port.in.UpdateTopicCommand;
+import com.kdbf.forum.application.port.in.UpdateTopicUseCase;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
+// TODO separate by query and command
+// slice controller
 public class TopicController {
 
   private final TopicDtoMapper topicMapper;
-  private final RegisterTopicService registerService;
-  private final FindTopicsService findService;
-  private final UpdateTopicService updateTopic;
-  private final DeleteTopicService deleteTopic;
+  private final RegisterTopicUseCase registerTopic;
+  private final FindTopicsUseCase findTopic;
+  private final UpdateTopicUseCase updateTopic;
+  private final DeleteTopicUseCase deleteTopic;
 
   @PostMapping("/topicos")
   public ResponseEntity<ResponseTopicDto> registerAuthor(
@@ -57,7 +59,7 @@ public class TopicController {
 
     List<ResponseTopicDto> topics;
 
-    topics = findService.findAllTopics().stream()
+    topics = findTopic.findAllTopics().stream()
         .map(x -> topicMapper.toDto(x))
         .toList();
     return ResponseEntity
@@ -71,7 +73,7 @@ public class TopicController {
       @PathVariable("publicId") UUID publicId) {
 
     FindTopicByIdQuery query = new FindTopicByIdQuery(publicId);
-    ResponseTopicDto response = topicMapper.toDto(findService.findTopicById(query));
+    ResponseTopicDto response = topicMapper.toDto(findTopic.findTopicById(query));
 
     return ResponseEntity
         .status(HttpStatus.OK)
@@ -113,7 +115,7 @@ public class TopicController {
         topicDto.author().displayName(),
         topicDto.course().courseName(),
         topicDto.course().courseCode());
-    Topic savedTopic = registerService.registerTopic(command);
+    Topic savedTopic = registerTopic.registerTopic(command);
 
     ResponseTopicDto responseDto = topicMapper.toDto(savedTopic);
     return responseDto;

@@ -3,7 +3,6 @@ package com.kdbf.forum.application.domain.model.entity.objectValue;
 import com.kdbf.forum.application.domain.model.exception.InvalidCourseCodeException;
 
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
 
 @Embeddable
 public record CourseCode(String code) {
@@ -38,6 +37,31 @@ public record CourseCode(String code) {
     String regex = "^[A-Z]{3}-\\d{4}$";
 
     return input.matches(regex);
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((code == null) ? 0 : code.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CourseCode other = (CourseCode) obj;
+    if (code == null) {
+      if (other.code != null)
+        return false;
+    } else if (!code.equals(other.code))
+      return false;
+    return true;
   }
 
 }

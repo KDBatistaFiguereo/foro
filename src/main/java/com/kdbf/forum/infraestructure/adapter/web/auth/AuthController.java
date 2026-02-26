@@ -3,6 +3,7 @@ package com.kdbf.forum.infraestructure.adapter.web.auth;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +29,12 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<TokenDto> signIn(@RequestBody @Valid AuthDataDto dto) {
 
-    var token = new UsernamePasswordAuthenticationToken(
+    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
         dto.username(),
         dto.password());
-    var auth = manager.authenticate(token);
+    Authentication auth = manager.authenticate(token);
 
-    var jwtToken = tokenService.generateToken((AuthorJpa) auth.getPrincipal());
+    String jwtToken = tokenService.generateToken((AuthorJpa) auth.getPrincipal());
     return ResponseEntity.ok(new TokenDto(jwtToken));
 
   }

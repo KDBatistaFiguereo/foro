@@ -27,6 +27,7 @@ public class SecurityConfig {
     return http
         .csrf(csrf -> csrf.disable())
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .httpBasic(basic -> basic.disable())
         .authorizeHttpRequests(request -> {
           request.requestMatchers(HttpMethod.POST, "/login").permitAll();
           request.requestMatchers(HttpMethod.POST, "/sign-up").permitAll();
