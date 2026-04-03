@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.security;
+package com.kdbf.forum.adapters.in.security;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -34,10 +34,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("temp")
-public class SecurityFilterTest {
+public class JwtSecurityFilterTest {
 
   @InjectMocks
-  private SecurityFilter securityFilter;
+  private JwtSecurityFilter securityFilter;
   @Mock
   private HttpServletRequest servletRequest;
   @Mock

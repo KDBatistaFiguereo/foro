@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.security;
+package com.kdbf.forum.adapters.in.security;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class SecurityFilter extends OncePerRequestFilter {
+public class JwtSecurityFilter extends OncePerRequestFilter {
 
   TokenService tokenService;
 

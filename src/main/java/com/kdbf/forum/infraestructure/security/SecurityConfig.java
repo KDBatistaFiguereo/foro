@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.kdbf.forum.adapters.in.security.JwtSecurityFilter;
+
 import lombok.AllArgsConstructor;
 
 @Configuration
@@ -20,7 +22,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SecurityConfig {
 
-  private SecurityFilter securityFilter;
+  private JwtSecurityFilter securityFilter;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
