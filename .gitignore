@@ -37,3 +37,5 @@ build/
 src/main/java/com/kdbf/forum/common/security/TempSecurityConfig.java
 
 scripts/.*
+http/http-client.env.json
+

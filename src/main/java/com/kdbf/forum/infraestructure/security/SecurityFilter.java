@@ -31,8 +31,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     if (tokenJwt != null) {
       var subject = tokenService.getSubject(tokenJwt);
-      var usuario = authorRepository.findByUsername(subject);
-      var auth = new UsernamePasswordAuthenticationToken(usuario, null, usuario.get().getAuthorities());
+      var author = authorRepository.findByUsername(subject)
+          .orElseThrow(() -> new RuntimeException("Author not found"));
+      var auth = new UsernamePasswordAuthenticationToken(author, null, author.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
@@ -40,7 +41,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
   }
 
-  private String returnToken(HttpServletRequest request) {
+  protected String returnToken(HttpServletRequest request) {
     String authorizationHeader = request.getHeader("Authorization");
     if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
       return authorizationHeader.substring(7); // remove first 7 characters
