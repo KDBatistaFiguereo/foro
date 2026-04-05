@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth.service;
+package com.kdbf.forum.adapters.in.security.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
