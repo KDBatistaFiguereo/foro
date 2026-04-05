@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth.dto;
+package com.kdbf.forum.adapters.in.security.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

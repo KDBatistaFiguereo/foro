@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
 import com.kdbf.forum.mother.AuthorJpaMother;
 
-@Tag("temp")
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationServiceTest {
 
