@@ -7,8 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.kdbf.forum.adapters.in.security.service.TokenService;
 import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
-import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

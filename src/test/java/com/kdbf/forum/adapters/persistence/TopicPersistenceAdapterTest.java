@@ -20,6 +20,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.kdbf.forum.adapters.in.security.JwtSecurityFilter;
+import com.kdbf.forum.adapters.in.security.service.TokenService;
 import com.kdbf.forum.adapters.out.persistence.TopicPersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
 import com.kdbf.forum.adapters.out.persistence.entity.CourseJpa;
@@ -33,7 +34,6 @@ import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
-import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
 
 import jakarta.transaction.Transactional;
 

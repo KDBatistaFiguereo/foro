@@ -11,9 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.kdbf.forum.adapters.in.security.service.TokenService;
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
 import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
-import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.kdbf.forum.adapters.in.security.service.TokenService;
 import com.kdbf.forum.adapters.in.web.TopicController;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
@@ -21,7 +22,6 @@ import com.kdbf.forum.application.domain.service.DeleteTopicService;
 import com.kdbf.forum.application.domain.service.FindTopicsService;
 import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.domain.service.UpdateTopicService;
-import com.kdbf.forum.infraestructure.adapter.web.auth.service.TokenService;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;

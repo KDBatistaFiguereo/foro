@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth.service;
+package com.kdbf.forum.adapters.in.security.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

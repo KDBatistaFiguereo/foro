@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth.service;
+package com.kdbf.forum.adapters.in.security.service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -19,7 +19,7 @@ public class TokenService {
 
   public String generateToken(AuthorJpa author) {
     try {
-      var algorithm = Algorithm.HMAC256(secret);
+      Algorithm algorithm = Algorithm.HMAC256(secret);
       return JWT.create()
           .withIssuer("forum")
           .withSubject(author.getUsername())
@@ -33,7 +33,7 @@ public class TokenService {
 
   public String getSubject(String tokenJwt) {
     try {
-      var algorithm = Algorithm.HMAC256(secret);
+      Algorithm algorithm = Algorithm.HMAC256(secret);
       return JWT.require(algorithm)
           .withIssuer("forum")
           .build()
