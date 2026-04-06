@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.web.auth;
+package com.kdbf.forum.adapters.in.security.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,7 @@ public class AuthController {
 
   AuthenticationManager manager;
   TokenService tokenService;
-  AuthorSignUpService userService;
+  AuthorSignUpService authorSignUp;
 
   @PostMapping("/login")
   public ResponseEntity<TokenDto> signIn(@RequestBody @Valid AuthDataDto dto) {
@@ -41,7 +41,7 @@ public class AuthController {
 
   @PostMapping("/sign-up")
   public ResponseEntity<String> signUp(@RequestBody @Valid RegistrationDto dto) {
-    userService.signUpUser(dto);
+    authorSignUp.signUpUser(dto);
     return ResponseEntity.ok("User registered succesfully");
   }
 
