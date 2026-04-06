@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.security;
+package com.kdbf.forum.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

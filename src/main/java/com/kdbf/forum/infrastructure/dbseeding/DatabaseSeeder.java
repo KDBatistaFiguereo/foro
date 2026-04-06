@@ -1,4 +1,4 @@
-package com.kdbf.forum.infraestructure.adapter.persistence.dbseeding;
+package com.kdbf.forum.infrastructure.dbseeding;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
