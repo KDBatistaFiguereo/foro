@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kdbf.forum.adapters.in.security.dto.AuthDataDto;
+import com.kdbf.forum.adapters.in.security.dto.LoginDto;
 import com.kdbf.forum.adapters.in.security.dto.RegistrationDto;
 import com.kdbf.forum.adapters.in.security.dto.TokenDto;
 import com.kdbf.forum.adapters.in.security.service.TokenService;
@@ -27,7 +27,7 @@ public class AuthController {
   AuthorSignUpService authorSignUp;
 
   @PostMapping("/login")
-  public ResponseEntity<TokenDto> signIn(@RequestBody @Valid AuthDataDto dto) {
+  public ResponseEntity<TokenDto> signIn(@RequestBody @Valid LoginDto dto) {
 
     UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
         dto.username(),
