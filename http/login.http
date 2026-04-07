@@ -1,0 +1,43 @@
+### 
+
+GET {{host}}/topicos HTTP/1.1
+Authorization: Bearer {{token}}
+
+
+### 
+
+POST {{host}}/topicos HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "author": {
+    "displayName": "{{displayName}}"
+  },
+  "body": "example body",
+  "course": {
+    "courseCode": "PRG-0014",
+    "courseName": "Programming fundamentals"
+  },
+  "title": "example title"
+}
+
+
+### 
+
+PUT {{host}}/topicos/{{topicId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "body": "New body",
+  "publicId": "{{topicId}}",
+  "title": "New title"
+}
+
+
+### 
+
+DELETE {{host}}/topicos/{{topicId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
