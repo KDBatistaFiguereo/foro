@@ -11,12 +11,13 @@ import com.kdbf.forum.application.domain.model.entity.Author;
 @Mapper(componentModel = "spring")
 public abstract class AuthorJpaMapper {
 
-  abstract Author toDomain(AuthorJpa authorJpa, @Context CycleAvoidingMappingContext context);
+  abstract public Author toDomain(AuthorJpa authorJpa, @Context CycleAvoidingMappingContext context);
 
   // avoid the jpa fields from being nulled
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "username", ignore = true)
   @Mapping(target = "hashedPassword", ignore = true)
-  abstract AuthorJpa toJpa(Author author, @Context CycleAvoidingMappingContext context);
+  @Mapping(target = "authorities", ignore = true)
+  abstract public AuthorJpa toJpa(Author author, @Context CycleAvoidingMappingContext context);
 
 }

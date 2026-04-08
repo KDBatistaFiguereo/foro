@@ -18,6 +18,7 @@ public class AuthorSignUpService {
 
   public void signUpUser(RegistrationDto dto) {
     AuthorJpa authorJpa = new AuthorJpa();
+    authorJpa.setHandle(dto.handle());
     authorJpa.setUsername(dto.username());
     authorJpa.setHashedPassword(encoder.encode(dto.password()));
     authorJpa.setDisplayName(dto.displayName());

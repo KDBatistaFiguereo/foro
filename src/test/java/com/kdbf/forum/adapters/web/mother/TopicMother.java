@@ -16,7 +16,8 @@ public class TopicMother {
         UUID.randomUUID(),
         "Post requests",
         "¿Whats the difference between post and get?",
-        new Author("confused_web_dev"),
+        new Author("Web dev",
+            "confused_dev"),
         LocalDateTime.now(),
         TopicStatus.DRAFT);
   }

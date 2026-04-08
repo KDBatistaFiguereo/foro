@@ -5,6 +5,7 @@ Content-Type: application/json
 
 {
   "displayName": "{{displayName}}",
+  "handle": "{{handle}}",
   "password": "{{password}}",
   "username": "{{username}}"
 }

@@ -1,6 +1,7 @@
 package com.kdbf.forum.adapters.out.persistence;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +53,12 @@ public class CoursePersistenceAdapter implements
     return courseRepository.findAll().stream()
         .map(x -> courseMapper.toDomain(x, context))
         .toList();
+  }
+
+  @Override
+  public Optional<Course> findByCode(CourseCode courseCode) {
+    return courseRepository.byCourseCode(courseCode)
+        .map(x -> courseMapper.toDomain(x, context));
   }
 
 }

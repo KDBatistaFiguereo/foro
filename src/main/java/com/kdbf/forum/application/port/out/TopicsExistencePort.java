@@ -2,8 +2,12 @@ package com.kdbf.forum.application.port.out;
 
 import java.util.UUID;
 
-public interface TopicsExistencePort {
-  Boolean existsByTitleAndCourseName(String title, String courseName);
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 
-  Boolean existsByPublicId(UUID publicId);
+public interface TopicsExistencePort {
+  boolean existsByTitleAndCourseName(String title, String courseName);
+
+  boolean existsByTitleAndCourseCode(String title, CourseCode courseCode);
+
+  boolean existsByPublicId(UUID publicId);
 }

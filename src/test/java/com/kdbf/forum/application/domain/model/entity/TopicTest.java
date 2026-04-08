@@ -18,7 +18,7 @@ public class TopicTest {
   public void shouldCreateTopic() {
     String title = "What is a code smell?";
     String body = "I always see this term thrown around here. Any help?";
-    Author author = new Author("confused_programmer");
+    Author author = new Author("Confused Programmer", "confused_programmer");
     Course course = new Course("Programming 014",
         new CourseCode("PRO-0014"));
 
@@ -35,7 +35,7 @@ public class TopicTest {
   public void shouldUpdateTopic() {
     String title = "What is a code smell?";
     String body = "I always see this term thrown around here. Any help?";
-    Author author = new Author("confused_programmer");
+    Author author = new Author("Confused Programmer", "confused_programmer");
     Course course = new Course("Programming 014",
         new CourseCode("PRO-0014"));
 
@@ -64,7 +64,7 @@ public class TopicTest {
           new CourseCode("PSC-0150")),
           "",
           "Hello guys",
-          new Author("empty_title_lover"));
+          new Author("Empty Title Lover", "empty-titler"));
     });
 
     assertEquals("A topic needs to have a title", exception.getMessage());
@@ -77,7 +77,7 @@ public class TopicTest {
           new CourseCode("ENG-0280")),
           "Do i really need to add a body to my post?",
           "",
-          new Author("text_body_hater"));
+          new Author("Text Body Hater", "text_hater"));
     });
 
     assertEquals("A topic needs to have a body", exception.getMessage());

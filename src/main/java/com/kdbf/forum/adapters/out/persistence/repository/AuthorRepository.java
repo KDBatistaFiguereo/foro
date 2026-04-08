@@ -14,6 +14,8 @@ public interface AuthorRepository extends JpaRepository<AuthorJpa, Long> {
 
   public Optional<AuthorJpa> findByDisplayName(String displayName);
 
+  public Optional<AuthorJpa> findByHandle(String handle);
+
   public Boolean existsByUsername(String username);
 
   public Boolean existsByDisplayName(String displayName);

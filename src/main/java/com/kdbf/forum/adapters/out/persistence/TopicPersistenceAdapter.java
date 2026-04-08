@@ -15,6 +15,7 @@ import com.kdbf.forum.adapters.out.persistence.repository.CourseRepository;
 import com.kdbf.forum.adapters.out.persistence.repository.TopicRepository;
 import com.kdbf.forum.adapters.out.persistence.utility.CycleAvoidingMappingContext;
 import com.kdbf.forum.application.domain.model.entity.Topic;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.exception.DuplicateTopicException;
 import com.kdbf.forum.application.domain.model.exception.NonExistantAuthorException;
 import com.kdbf.forum.application.domain.model.exception.NonExistantCourseException;
@@ -48,7 +49,7 @@ public class TopicPersistenceAdapter implements
           return topicMapper.toDomain(saved, context);
         }).orElseGet(() -> {
 
-          AuthorJpa authorJpa = authorRepository.findByDisplayName(topic.getAuthor().getDisplayName())
+          AuthorJpa authorJpa = authorRepository.findByHandle(topic.getAuthor().getHandle())
               .orElseThrow(() -> new NonExistantAuthorException("The user doesn't exist"));
           CourseJpa courseJpa = courseRepository.byCourseCode(topic.getCourse().getCourseCode())
               .orElseThrow(() -> new NonExistantCourseException("The course doesn't exist"));
@@ -68,7 +69,7 @@ public class TopicPersistenceAdapter implements
   }
 
   @Override
-  public Boolean existsByTitleAndCourseName(String title, String courseName) {
+  public boolean existsByTitleAndCourseName(String title, String courseName) {
     return topicRepository.exists(title, courseName);
   }
 
@@ -86,8 +87,13 @@ public class TopicPersistenceAdapter implements
   }
 
   @Override
-  public Boolean existsByPublicId(UUID publicId) {
+  public boolean existsByPublicId(UUID publicId) {
     return topicRepository.existsByPublicId(publicId);
+  }
+
+  @Override
+  public boolean existsByTitleAndCourseCode(String title, CourseCode courseCode) {
+    return topicRepository.existsByTitleAndCourseCourseCode(title, courseCode);
   }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.kdbf.forum.adapters.out.persistence.entity.TopicJpa;
+import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 
 @Repository
 public interface TopicRepository extends JpaRepository<TopicJpa, Long> {
@@ -33,12 +34,14 @@ public interface TopicRepository extends JpaRepository<TopicJpa, Long> {
       WHERE t.title = :title
       AND t.course.courseName = :courseName
       """)
-  public Boolean exists(String title, String courseName);
+  public boolean exists(String title, String courseName);
 
   @Query("""
       SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END
       FROM TopicJpa t
       WHERE t.publicId = :publicId
       """)
-  public Boolean existsByPublicId(UUID publicId);
+  public boolean existsByPublicId(UUID publicId);
+
+  public boolean existsByTitleAndCourseCourseCode(String title, CourseCode courseCode);
 }

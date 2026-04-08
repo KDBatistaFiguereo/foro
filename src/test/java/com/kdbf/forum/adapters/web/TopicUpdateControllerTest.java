@@ -7,31 +7,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.kdbf.forum.adapters.in.security.service.TokenService;
-import com.kdbf.forum.adapters.in.web.TopicController;
+import com.kdbf.forum.adapters.in.security.JwtSecurityFilter;
 import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
 import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
-import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
+import com.kdbf.forum.adapters.in.web.topic.UpdateTopicController;
 import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
 import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
-import com.kdbf.forum.application.domain.service.DeleteTopicService;
-import com.kdbf.forum.application.domain.service.FindTopicsService;
-import com.kdbf.forum.application.domain.service.RegisterTopicService;
 import com.kdbf.forum.application.domain.service.UpdateTopicService;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-@WebMvcTest(TopicController.class)
+@Tag("controller")
+@WebMvcTest(value = UpdateTopicController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
+
 @ActiveProfiles("test")
 @WithMockUser
 public class TopicUpdateControllerTest {
@@ -40,25 +41,10 @@ public class TopicUpdateControllerTest {
   MockMvc mockMvc;
 
   @MockitoBean
-  private RegisterTopicService registerTopic;
-
-  @MockitoBean
-  private FindTopicsService findTopics;
-
-  @MockitoBean
   private UpdateTopicService updateTopic;
 
   @MockitoBean
   private TopicDtoMapper topicMapper;
-
-  @MockitoBean
-  private DeleteTopicService deleteTopic;
-
-  @MockitoBean
-  private TokenService tokenService;
-
-  @MockitoBean
-  private AuthorRepository authorRepository;
 
   @Test
   public void shouldUpdateTopic() throws Exception {
@@ -79,7 +65,7 @@ public class TopicUpdateControllerTest {
         topic.getTitle(),
         topic.getBody());
 
-    mockMvc.perform(put("/topicos/" + topic.getPublicId().toString())
+    mockMvc.perform(put("/topics/" + topic.getPublicId().toString())
         .with(csrf())
         .contentType(MediaType.APPLICATION_JSON)
         .content(json))

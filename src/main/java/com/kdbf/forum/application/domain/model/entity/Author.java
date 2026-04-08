@@ -8,13 +8,15 @@ import lombok.Getter;
 public class Author {
 
   String displayName;
+  String handle;
 
-  public Author(String displayName) {
+  public Author(String displayName, String handle) {
     if (!isValidName(displayName)) {
       throw new InvalidDisplayNameException("The name is not valid");
     }
 
     this.displayName = displayName;
+    this.handle = handle;
 
   }
 

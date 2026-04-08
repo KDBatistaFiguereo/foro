@@ -48,6 +48,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     if (authorRepository.count() == 0) {
       authorJpa = new AuthorJpa("Anonymous",
+          "anonymous",
           username,
           passwordEncoder.encode(password));
       authorRepository.save(authorJpa);

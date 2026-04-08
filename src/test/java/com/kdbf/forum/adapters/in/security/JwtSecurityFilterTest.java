@@ -51,6 +51,7 @@ public class JwtSecurityFilterTest {
   @Test
   void shouldAuthenticateIfBearerIsValid() throws ServletException, IOException {
     AuthorJpa author = new AuthorJpa("John Doe",
+        "johndoe",
         "johndoea@gmail.com",
         "1231435343");
     when(servletRequest.getHeader("Authorization")).thenReturn("Bearer asadasd93r3");

@@ -22,7 +22,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-// UserDetails manages details about users in Spring security
 public class AuthorJpa implements UserDetails {
 
   @Id
@@ -32,14 +31,21 @@ public class AuthorJpa implements UserDetails {
   @Column(name = "display_name", nullable = false)
   private String displayName;
 
+  @Column(name = "handle", nullable = false)
+  private String handle;
+
   @Column(unique = true, nullable = false, length = 100)
-  private String username; // email
+  private String username;
 
   @Column(name = "password", nullable = false, length = 255)
   private String hashedPassword;
 
-  public AuthorJpa(String displayName, String username, String hashedPassword) {
+  public AuthorJpa(String displayName,
+      String handle,
+      String username,
+      String hashedPassword) {
     this.displayName = displayName;
+    this.handle = handle;
     this.username = username;
     this.hashedPassword = hashedPassword;
   }

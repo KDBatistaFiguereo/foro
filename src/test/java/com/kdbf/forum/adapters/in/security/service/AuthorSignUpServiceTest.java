@@ -29,6 +29,7 @@ public class AuthorSignUpServiceTest {
   @Test
   void shouldSaveAuthorWithEncodedPassword() {
     RegistrationDto dto = new RegistrationDto(
+        "johndoe",
         "John Doe",
         "johndoe@gmail.com",
         "secret123");
