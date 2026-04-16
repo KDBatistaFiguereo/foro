@@ -33,7 +33,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 @WithMockUser
 @ActiveProfiles("test")
 @Tag("controller")
-@Tag("temp")
 public class CreateTopicControllerTest {
 
   @Autowired

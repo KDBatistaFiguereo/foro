@@ -1,6 +1,5 @@
 package com.kdbf.forum.adapters.in.security.controller;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
@@ -39,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @WithMockUser
 @ActiveProfiles("test")
-@Tag("temp")
 @AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {
 

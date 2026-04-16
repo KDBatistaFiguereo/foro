@@ -1,6 +1,5 @@
 package com.kdbf.forum.application.domain.service;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +27,6 @@ import com.kdbf.forum.mother.CourseMother;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
-@Tag("temp")
 @ExtendWith(MockitoExtension.class)
 public class RegisterTopicServiceTest {
 
@@ -49,9 +47,6 @@ public class RegisterTopicServiceTest {
 
   @Test
   public void shouldThrowExceptionIfTopicExists() {
-
-    // when(findAuthors.findByHandle(anyString())
-    // .thenReturn(Optional.of(AuthorMother.sample())));
 
     when(findAuthors.findByHandle(anyString()))
         .thenReturn(Optional.of(AuthorMother.sample()));
