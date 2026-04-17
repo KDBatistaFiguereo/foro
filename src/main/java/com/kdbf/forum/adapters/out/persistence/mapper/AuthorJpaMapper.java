@@ -20,4 +20,12 @@ public abstract class AuthorJpaMapper {
   @Mapping(target = "authorities", ignore = true)
   abstract public AuthorJpa toJpa(Author author, @Context CycleAvoidingMappingContext context);
 
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "authorities", ignore = true)
+  @Mapping(target = "username", source = "email")
+  @Mapping(target = "hashedPassword", source = "hashedPassword")
+  abstract public AuthorJpa toJpa(Author author,
+      @Context CycleAvoidingMappingContext context,
+      String email,
+      String hashedPassword);
 }

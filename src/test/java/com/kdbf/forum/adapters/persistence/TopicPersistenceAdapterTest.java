@@ -17,6 +17,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.kdbf.forum.adapters.out.persistence.AuthorPersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.CoursePersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.TopicPersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
@@ -62,15 +63,18 @@ public class TopicPersistenceAdapterTest {
   @Autowired
   CoursePersistenceAdapter courseAdapter;
 
+  @Autowired
+  AuthorPersistenceAdapter authorAdapter;
+
   @Test
   @Transactional
   public void shouldCreateNewTopic() {
-    authorRepository.save(AuthorJpaMother.sampleWithNameAndHandle(
-        "John Doe",
-        "johndoe"));
-    Author author = new Author("John Doe", "johndoe");
+    Author author = AuthorMother.sample();
     Course course = CourseMother.sample();
     courseAdapter.persistCourse(course);
+    authorAdapter.registerAuthor(author,
+        "johndoe@gmail.com",
+        "hashedSecret");
 
     Topic topic = Topic.newInstance(course,
         "What is an Optional?",

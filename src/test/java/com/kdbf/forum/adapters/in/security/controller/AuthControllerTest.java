@@ -86,6 +86,7 @@ class AuthControllerTest {
     String json = """
         {
           "displayName": "testuser",
+          "handle": "theTestUser",
           "username": "test@email.com",
           "password": "testpass"
         }
