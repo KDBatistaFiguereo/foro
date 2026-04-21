@@ -12,14 +12,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.kdbf.forum.adapters.in.security.JwtSecurityFilter;
-import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
-import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
+import com.kdbf.forum.adapters.in.security.filter.JwtSecurityFilter;
 import com.kdbf.forum.adapters.in.web.topic.ShowTopicsController;
+import com.kdbf.forum.adapters.in.web.topic.dto.ResponseTopicDto;
+import com.kdbf.forum.adapters.in.web.topic.mapper.TopicDtoMapper;
 import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
 import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
-import com.kdbf.forum.application.domain.service.FindTopicsService;
+import com.kdbf.forum.application.domain.service.topic.FindTopicsService;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 import com.kdbf.forum.mother.AuthorJpaMother;
 
 @ExtendWith(MockitoExtension.class)

@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kdbf.forum.adapters.in.web.dto.CreateTopicDto;
-import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
-import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
+import com.kdbf.forum.adapters.in.web.topic.dto.CreateTopicDto;
+import com.kdbf.forum.adapters.in.web.topic.dto.ResponseTopicDto;
+import com.kdbf.forum.adapters.in.web.topic.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.domain.model.entity.Topic;
-import com.kdbf.forum.application.port.in.RegisterTopicCommand;
-import com.kdbf.forum.application.port.in.RegisterTopicUseCase;
+import com.kdbf.forum.application.port.in.topic.RegisterTopicUseCase;
+import com.kdbf.forum.application.port.in.topic.command.RegisterTopicCommand;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

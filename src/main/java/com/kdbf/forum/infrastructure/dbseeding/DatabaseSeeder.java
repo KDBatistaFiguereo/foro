@@ -9,12 +9,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
-import com.kdbf.forum.adapters.out.persistence.entity.CourseJpa;
-import com.kdbf.forum.adapters.out.persistence.entity.TopicJpa;
-import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
-import com.kdbf.forum.adapters.out.persistence.repository.CourseRepository;
-import com.kdbf.forum.adapters.out.persistence.repository.TopicRepository;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorRepository;
+import com.kdbf.forum.adapters.out.persistence.course.CourseJpa;
+import com.kdbf.forum.adapters.out.persistence.course.CourseRepository;
+import com.kdbf.forum.adapters.out.persistence.topic.TopicJpa;
+import com.kdbf.forum.adapters.out.persistence.topic.TopicRepository;
 import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 

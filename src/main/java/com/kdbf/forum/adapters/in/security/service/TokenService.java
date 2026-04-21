@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 
 @Service
 public class TokenService {

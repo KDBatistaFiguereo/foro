@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,10 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.kdbf.forum.adapters.in.security.dto.RegistrationDto;
-import com.kdbf.forum.adapters.out.persistence.AuthorPersistenceAdapter;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorPersistenceAdapter;
 import com.kdbf.forum.application.domain.model.entity.Author;
 
-@Tag("temp")
 @ExtendWith(MockitoExtension.class)
 public class AuthorSignUpServiceTest {
 

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 import com.kdbf.forum.mother.AuthorJpaMother;
 
 @TestPropertySource(properties = {

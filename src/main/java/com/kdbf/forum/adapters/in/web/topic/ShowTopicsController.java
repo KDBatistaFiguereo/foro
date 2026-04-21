@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
-import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
-import com.kdbf.forum.application.port.in.FindTopicByIdQuery;
-import com.kdbf.forum.application.port.in.FindTopicsUseCase;
+import com.kdbf.forum.adapters.in.web.topic.dto.ResponseTopicDto;
+import com.kdbf.forum.adapters.in.web.topic.mapper.TopicDtoMapper;
+import com.kdbf.forum.application.port.in.topic.FindTopicsUseCase;
+import com.kdbf.forum.application.port.in.topic.query.FindTopicByIdQuery;
 
 import lombok.AllArgsConstructor;
 

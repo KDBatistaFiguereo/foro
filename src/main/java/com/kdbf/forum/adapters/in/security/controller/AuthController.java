@@ -12,8 +12,8 @@ import com.kdbf.forum.adapters.in.security.dto.LoginDto;
 import com.kdbf.forum.adapters.in.security.dto.RegistrationDto;
 import com.kdbf.forum.adapters.in.security.dto.TokenDto;
 import com.kdbf.forum.adapters.in.security.service.TokenService;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 import com.kdbf.forum.adapters.in.security.service.AuthorSignUpService;
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

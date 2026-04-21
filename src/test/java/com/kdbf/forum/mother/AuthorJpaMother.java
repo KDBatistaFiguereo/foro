@@ -1,6 +1,6 @@
 package com.kdbf.forum.mother;
 
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 
 public class AuthorJpaMother {
   public static AuthorJpa sample() {

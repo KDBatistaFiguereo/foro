@@ -17,11 +17,12 @@ import static org.mockito.Mockito.any;
 
 import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.exception.DuplicateTopicException;
-import com.kdbf.forum.application.port.in.RegisterTopicCommand;
-import com.kdbf.forum.application.port.out.FindAuthorsPort;
-import com.kdbf.forum.application.port.out.FindCoursesPort;
-import com.kdbf.forum.application.port.out.PersistTopicsPort;
-import com.kdbf.forum.application.port.out.TopicsExistencePort;
+import com.kdbf.forum.application.domain.service.topic.RegisterTopicService;
+import com.kdbf.forum.application.port.in.topic.command.RegisterTopicCommand;
+import com.kdbf.forum.application.port.out.author.FindAuthorsPort;
+import com.kdbf.forum.application.port.out.course.FindCoursesPort;
+import com.kdbf.forum.application.port.out.topic.PersistTopicsPort;
+import com.kdbf.forum.application.port.out.topic.TopicsExistencePort;
 import com.kdbf.forum.mother.AuthorMother;
 import com.kdbf.forum.mother.CourseMother;
 

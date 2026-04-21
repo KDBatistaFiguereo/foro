@@ -18,11 +18,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
-import com.kdbf.forum.adapters.in.security.JwtSecurityFilter;
-import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
+import com.kdbf.forum.adapters.in.security.filter.JwtSecurityFilter;
 import com.kdbf.forum.adapters.in.web.topic.DeleteTopicController;
-import com.kdbf.forum.application.domain.service.DeleteTopicService;
-import com.kdbf.forum.application.port.in.DeleteTopicCommand;
+import com.kdbf.forum.adapters.in.web.topic.mapper.TopicDtoMapper;
+import com.kdbf.forum.application.domain.service.topic.DeleteTopicService;
+import com.kdbf.forum.application.port.in.topic.command.DeleteTopicCommand;
 
 @Tag("controller")
 @ActiveProfiles("test")

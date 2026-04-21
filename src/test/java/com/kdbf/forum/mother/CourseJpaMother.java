@@ -1,6 +1,6 @@
 package com.kdbf.forum.mother;
 
-import com.kdbf.forum.adapters.out.persistence.entity.CourseJpa;
+import com.kdbf.forum.adapters.out.persistence.course.CourseJpa;
 import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 
 public class CourseJpaMother {

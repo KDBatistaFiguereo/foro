@@ -1,8 +1,8 @@
 package com.kdbf.forum.adapters.web.mother;
 
-import com.kdbf.forum.adapters.in.web.dto.AuthorDto;
-import com.kdbf.forum.adapters.in.web.dto.CourseDto;
-import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
+import com.kdbf.forum.adapters.in.web.author.dto.AuthorDto;
+import com.kdbf.forum.adapters.in.web.course.dto.CourseDto;
+import com.kdbf.forum.adapters.in.web.topic.dto.ResponseTopicDto;
 import com.kdbf.forum.application.domain.model.entity.Topic;
 
 public class TopicDtoMother {

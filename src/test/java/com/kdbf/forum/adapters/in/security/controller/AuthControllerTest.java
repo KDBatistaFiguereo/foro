@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.kdbf.forum.adapters.in.security.dto.RegistrationDto;
 import com.kdbf.forum.adapters.in.security.service.AuthorSignUpService;
 import com.kdbf.forum.adapters.in.security.service.TokenService;
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
-import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorRepository;
 
 import static org.mockito.ArgumentMatchers.any;
 

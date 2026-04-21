@@ -19,14 +19,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.kdbf.forum.adapters.in.security.JwtSecurityFilter;
-import com.kdbf.forum.adapters.in.web.dto.ResponseTopicDto;
-import com.kdbf.forum.adapters.in.web.mapper.TopicDtoMapper;
+import com.kdbf.forum.adapters.in.security.filter.JwtSecurityFilter;
 import com.kdbf.forum.adapters.in.web.topic.UpdateTopicController;
+import com.kdbf.forum.adapters.in.web.topic.dto.ResponseTopicDto;
+import com.kdbf.forum.adapters.in.web.topic.mapper.TopicDtoMapper;
 import com.kdbf.forum.adapters.web.mother.TopicDtoMother;
 import com.kdbf.forum.adapters.web.mother.TopicMother;
 import com.kdbf.forum.application.domain.model.entity.Topic;
-import com.kdbf.forum.application.domain.service.UpdateTopicService;
+import com.kdbf.forum.application.domain.service.topic.UpdateTopicService;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 

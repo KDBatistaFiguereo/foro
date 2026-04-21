@@ -2,8 +2,8 @@ package com.kdbf.forum.adapters.in.security.service;
 
 import org.springframework.stereotype.Service;
 
-import com.kdbf.forum.adapters.out.persistence.entity.AuthorJpa;
-import com.kdbf.forum.adapters.out.persistence.repository.AuthorRepository;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
+import com.kdbf.forum.adapters.out.persistence.author.AuthorRepository;
 import com.kdbf.forum.application.domain.model.exception.AuthorNotFoundException;
 
 import lombok.AllArgsConstructor;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.kdbf.forum.adapters.in.security.dto.RegistrationDto;
 import com.kdbf.forum.application.domain.model.entity.Author;
-import com.kdbf.forum.application.port.out.AuthorRegistrationPort;
+import com.kdbf.forum.application.port.out.author.AuthorRegistrationPort;
 
 import lombok.AllArgsConstructor;
 
