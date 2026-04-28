@@ -1,5 +1,6 @@
 package com.kdbf.forum.adapters.out.persistence.course;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,8 +15,9 @@ public interface CourseRepository extends JpaRepository<CourseJpa, Long> {
   @Query("SELECT c FROM CourseJpa c WHERE c.courseName = :courseName")
   public Optional<CourseJpa> byCourseName(String courseName);
 
-  @Query("SELECT c FROM CourseJpa c WHERE c.courseCode = :courseCode")
-  public Optional<CourseJpa> byCourseCode(CourseCode courseCode);
+  public Optional<CourseJpa> findByCourseCode(CourseCode courseCode);
+
+  public List<CourseJpa> findAllByCourseCode(CourseCode courseCode);
 
   public Boolean existsByCourseCode(CourseCode courseCode);
 

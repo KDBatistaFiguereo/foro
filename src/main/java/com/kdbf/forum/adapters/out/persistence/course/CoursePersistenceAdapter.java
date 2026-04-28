@@ -34,7 +34,7 @@ public class CoursePersistenceAdapter implements
   @Override
   @Transactional
   public Course persistCourse(Course course) {
-    return courseRepository.byCourseCode(course.getCourseCode())
+    return courseRepository.findByCourseCode(course.getCourseCode())
         .map(existingCourse -> {
           courseMapper.updateJpaFromDomain(course, existingCourse, context);
           CourseJpa updated = courseRepository.save(existingCourse);
@@ -55,7 +55,7 @@ public class CoursePersistenceAdapter implements
 
   @Override
   public Optional<Course> findByCode(CourseCode courseCode) {
-    return courseRepository.byCourseCode(courseCode)
+    return courseRepository.findByCourseCode(courseCode)
         .map(x -> courseMapper.toDomain(x, context));
   }
 

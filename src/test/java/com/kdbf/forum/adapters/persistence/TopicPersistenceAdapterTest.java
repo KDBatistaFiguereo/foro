@@ -41,7 +41,7 @@ import jakarta.transaction.Transactional;
 @ActiveProfiles("test")
 @Testcontainers
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-@Tag("context")
+@Tag("persistence")
 @AutoConfigureMockMvc(addFilters = false)
 public class TopicPersistenceAdapterTest {
 
@@ -68,7 +68,7 @@ public class TopicPersistenceAdapterTest {
 
   @Test
   @Transactional
-  public void shouldCreateNewTopic() {
+  void shouldCreateNewTopic() {
     Author author = AuthorMother.sample();
     Course course = CourseMother.sample();
     courseAdapter.persistCourse(course);
@@ -94,7 +94,7 @@ public class TopicPersistenceAdapterTest {
 
   @Test
   @Transactional
-  public void shouldUpdateTopic() {
+  void shouldUpdateTopic() {
     AuthorJpa authorJpa = AuthorJpaMother.sampleWithNameAndHandle(
         "John Doe", "johndoe");
     CourseJpa courseJpa = CourseJpaMother.customSample(
