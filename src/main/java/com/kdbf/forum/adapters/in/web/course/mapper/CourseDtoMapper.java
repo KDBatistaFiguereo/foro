@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import com.kdbf.forum.adapters.in.web.course.dto.CourseDto;
+import com.kdbf.forum.adapters.in.web.course.dto.UpdateCourseDto;
 import com.kdbf.forum.application.domain.model.entity.Course;
 import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 
@@ -21,6 +22,9 @@ public abstract class CourseDtoMapper {
 
   @Mapping(source = "courseCode", target = "courseCode", qualifiedByName = "stringFromCode")
   public abstract CourseDto toDto(Course course);
+
+  @Mapping(source = "courseName", target = "newName")
+  public abstract UpdateCourseDto toUpdateDto(Course course);
 
   @Named("stringFromCode")
   protected String codeToString(CourseCode courseCode) {

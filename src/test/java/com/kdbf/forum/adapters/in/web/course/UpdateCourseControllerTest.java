@@ -3,7 +3,8 @@ package com.kdbf.forum.adapters.in.web.course;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,25 +24,29 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kdbf.forum.adapters.in.security.filter.JwtSecurityFilter;
 import com.kdbf.forum.adapters.in.web.course.dto.CourseDto;
+import com.kdbf.forum.adapters.in.web.course.dto.UpdateCourseDto;
 import com.kdbf.forum.adapters.in.web.course.mapper.CourseDtoMapper;
 import com.kdbf.forum.adapters.in.web.course.mapper.CourseDtoMapperImpl;
 import com.kdbf.forum.application.domain.model.entity.Course;
-import com.kdbf.forum.application.domain.service.course.CreateCourseService;
+import com.kdbf.forum.application.domain.service.course.UpdateCourseService;
 import com.kdbf.forum.mother.CourseMother;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(value = CreateCourseController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
-@ActiveProfiles("test")
+@WebMvcTest(value = UpdateCourseController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
 @Tag("controller")
+@Tag("temp")
 @WithMockUser
-@Import({ CourseDtoMapperImpl.class, ObjectMapper.class })
-public class CreateCourseControllerTest {
+@ActiveProfiles("test")
+@Import({
+    CourseDtoMapperImpl.class,
+    ObjectMapper.class
+})
+public class UpdateCourseControllerTest {
 
   @Autowired
   MockMvc mockMvc;
 
   @MockitoBean
-  private CreateCourseService createCourse;
+  private UpdateCourseService updateCourse;
 
   @Autowired
   private CourseDtoMapper courseMapper;
@@ -50,23 +55,26 @@ public class CreateCourseControllerTest {
   private ObjectMapper objectMapper;
 
   @Test
-  void shouldCreateCourse() throws Exception {
-    Course createdCourse = CourseMother.sample();
-    when(createCourse.createCourse(any()))
-        .thenReturn(createdCourse);
-    String json = objectMapper.writeValueAsString(createdCourse);
+  void shouldUpdateCourseName() throws Exception {
 
-    CourseDto expected = courseMapper.toDto(createdCourse);
+    Course course = CourseMother.sample();
+    Course updatedCourse = CourseMother.customSample(
+        "New name",
+        course.getCourseCode().code());
+    UpdateCourseDto updateDto = courseMapper.toUpdateDto(updatedCourse);
 
-    mockMvc.perform(post("/courses")
+    when(updateCourse.updateCourseName(any()))
+        .thenReturn(updatedCourse);
+
+    String json = objectMapper.writeValueAsString(updateDto);
+    CourseDto expected = courseMapper.toDto(updatedCourse);
+
+    mockMvc.perform(put("/courses/" + course.getCourseCode().code())
         .with(csrf())
         .contentType(MediaType.APPLICATION_JSON)
-        .content(json))
-        .andExpect(status().isCreated())
+        .content(json)).andExpect(status().isOk())
         .andExpect(jsonPath("$.courseName").value(expected.courseName()))
-        .andExpect(jsonPath("$.courseCode").value(expected.courseCode()))
         .andDo(print());
   }
 
-  // TODO: Update test
 }
