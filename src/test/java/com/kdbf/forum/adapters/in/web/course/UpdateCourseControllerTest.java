@@ -33,7 +33,6 @@ import com.kdbf.forum.mother.CourseMother;
 
 @WebMvcTest(value = UpdateCourseController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
 @Tag("controller")
-@Tag("temp")
 @WithMockUser
 @ActiveProfiles("test")
 @Import({

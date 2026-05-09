@@ -7,8 +7,9 @@ import lombok.Getter;
 @Getter
 public class Author {
 
-  String displayName;
-  String handle;
+  private String displayName;
+  private String handle;
+  private UserRoles role;
 
   public Author(String displayName, String handle) {
     if (!isValidName(displayName)) {
@@ -17,7 +18,12 @@ public class Author {
 
     this.displayName = displayName;
     this.handle = handle;
+    this.role = UserRoles.ROLE_MEMBER;
 
+  }
+
+  public void promoteToInstructor() {
+    this.role = UserRoles.ROLE_INSTRUCTOR;
   }
 
   private Boolean isValidName(String name) {
