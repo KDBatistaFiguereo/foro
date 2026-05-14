@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 import com.kdbf.forum.adapters.out.persistence.author.mapper.AuthorJpaMapper;
 import com.kdbf.forum.adapters.out.persistence.utility.CycleAvoidingMappingContext;
 import com.kdbf.forum.application.domain.model.entity.Author;
+import com.kdbf.forum.application.domain.model.exception.NonExistantAuthorException;
 import com.kdbf.forum.application.domain.service.exception.DuplicateAuthorException;
 import com.kdbf.forum.application.port.out.author.AuthorExistencePort;
 import com.kdbf.forum.application.port.out.author.AuthorRegistrationPort;
+import com.kdbf.forum.application.port.out.author.AuthorUpdatePort;
 import com.kdbf.forum.application.port.out.author.FindAuthorsPort;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +19,10 @@ import lombok.AllArgsConstructor;
 @Component
 @AllArgsConstructor
 public class AuthorPersistenceAdapter implements
-    FindAuthorsPort, AuthorExistencePort, AuthorRegistrationPort {
+    FindAuthorsPort,
+    AuthorExistencePort,
+    AuthorRegistrationPort,
+    AuthorUpdatePort {
 
   private final AuthorJpaMapper authorMapper;
   private final CycleAvoidingMappingContext context;
@@ -44,6 +49,17 @@ public class AuthorPersistenceAdapter implements
 
     authorRepository.save(authorJpa);
 
+  }
+
+  @Override
+  public Author updateAuthor(Author author) {
+    return authorRepository.findByHandle(author.getHandle())
+        .map(existingAuthor -> {
+          authorMapper.updateJpaFromDomain(author, existingAuthor, context);
+          AuthorJpa updated = authorRepository.save(existingAuthor);
+          return authorMapper.toDomain(updated, context);
+        }).orElseThrow(
+            () -> new NonExistantAuthorException("The author does not exist"));
   }
 
 }

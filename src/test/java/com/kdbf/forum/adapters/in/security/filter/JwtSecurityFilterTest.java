@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.kdbf.forum.adapters.in.security.service.TokenService;
 import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 import com.kdbf.forum.adapters.out.persistence.author.AuthorRepository;
+import com.kdbf.forum.application.domain.model.entity.UserRoles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,7 +54,8 @@ public class JwtSecurityFilterTest {
     AuthorJpa author = new AuthorJpa("John Doe",
         "johndoe",
         "johndoea@gmail.com",
-        "1231435343");
+        "1231435343",
+        UserRoles.ROLE_MEMBER);
     when(servletRequest.getHeader("Authorization")).thenReturn("Bearer asadasd93r3");
     when(tokenService.getSubject("asadasd93r3")).thenReturn("johndoea@gmail.com");
     when(authorRepository.findByUsername("johndoea@gmail.com")).thenReturn(Optional.of(author));

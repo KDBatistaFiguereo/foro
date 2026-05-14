@@ -16,6 +16,8 @@ public interface AuthorRepository extends JpaRepository<AuthorJpa, Long> {
 
   public boolean existsByUsername(String username);
 
+  public int countByHandle(String handle);
+
   public boolean existsByDisplayName(String displayName);
 
   public boolean existsByHandle(String handle);

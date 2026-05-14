@@ -1,5 +1,6 @@
 package com.kdbf.forum.application.domain.model.entity;
 
+import com.kdbf.forum.application.commons.Default;
 import com.kdbf.forum.application.domain.model.exception.InvalidDisplayNameException;
 
 import lombok.Getter;
@@ -20,6 +21,13 @@ public class Author {
     this.handle = handle;
     this.role = UserRoles.ROLE_MEMBER;
 
+  }
+
+  @Default
+  public Author(String displayName, String handle, UserRoles role) {
+    this.displayName = displayName;
+    this.handle = handle;
+    this.role = role;
   }
 
   public void promoteToInstructor() {

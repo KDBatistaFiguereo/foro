@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.kdbf.forum.application.domain.model.entity.UserRoles;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,14 +42,19 @@ public class AuthorJpa implements UserDetails {
   @Column(name = "password", nullable = false, length = 255)
   private String hashedPassword;
 
+  @Column(name = "role")
+  private UserRoles role;
+
   public AuthorJpa(String displayName,
       String handle,
       String username,
-      String hashedPassword) {
+      String hashedPassword,
+      UserRoles role) {
     this.displayName = displayName;
     this.handle = handle;
     this.username = username;
     this.hashedPassword = hashedPassword;
+    this.role = role;
   }
 
   @Override

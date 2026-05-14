@@ -30,7 +30,6 @@ import com.kdbf.forum.application.port.out.author.FindAuthorsPort;
 import com.kdbf.forum.mother.AuthorMother;
 
 @Tag("service")
-@Tag("temp")
 @ExtendWith(MockitoExtension.class)
 public class PromoteToInstructorServiceTest {
 

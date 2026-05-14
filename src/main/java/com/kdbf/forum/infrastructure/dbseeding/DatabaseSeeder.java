@@ -15,6 +15,7 @@ import com.kdbf.forum.adapters.out.persistence.course.CourseJpa;
 import com.kdbf.forum.adapters.out.persistence.course.CourseRepository;
 import com.kdbf.forum.adapters.out.persistence.topic.TopicJpa;
 import com.kdbf.forum.adapters.out.persistence.topic.TopicRepository;
+import com.kdbf.forum.application.domain.model.entity.UserRoles;
 import com.kdbf.forum.application.domain.model.entity.objectValue.CourseCode;
 import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 
@@ -50,7 +51,8 @@ public class DatabaseSeeder implements CommandLineRunner {
       authorJpa = new AuthorJpa("Anonymous",
           "anonymous",
           username,
-          passwordEncoder.encode(password));
+          passwordEncoder.encode(password),
+          UserRoles.ROLE_ADMIN);
       authorRepository.save(authorJpa);
       log.info("Author {} created", authorJpa.getDisplayName());
     } else {
