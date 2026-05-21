@@ -21,6 +21,8 @@ import com.kdbf.forum.application.domain.model.entity.objectValue.TopicStatus;
 
 import lombok.extern.slf4j.Slf4j;
 
+//TODO: add injected values for handle and displayName
+//TODO: change username to email
 @Slf4j
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
