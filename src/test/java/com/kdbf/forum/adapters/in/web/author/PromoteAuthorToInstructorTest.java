@@ -35,7 +35,6 @@ import com.kdbf.forum.mother.AuthorMother;
 //TODO only an admin could do such promotion
 @ActiveProfiles("test")
 @WithMockUser
-@Tag("temp")
 @Tag("controller")
 @WebMvcTest(value = PromoteAuthorController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
 public class PromoteAuthorToInstructorTest {

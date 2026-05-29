@@ -11,10 +11,12 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
 import com.kdbf.forum.adapters.out.persistence.author.AuthorPersistenceAdapter;
 import com.kdbf.forum.adapters.out.persistence.author.AuthorRepository;
 import com.kdbf.forum.adapters.out.persistence.author.mapper.AuthorJpaMapper;
 import com.kdbf.forum.application.domain.model.entity.Author;
+import com.kdbf.forum.application.domain.model.entity.UserRoles;
 import com.kdbf.forum.mother.AuthorMother;
 
 @ActiveProfiles("test")
@@ -52,5 +54,20 @@ public class AuthorPersistenceAdapterTest {
     assertEquals(updatedAuthor.getRole(), result.getRole());
     assertEquals(updatedAuthor.getDisplayName(), result.getDisplayName());
 
+  }
+
+  @Test
+  void authoritiesShouldReflectRole() {
+    AuthorJpa author = new AuthorJpa(
+        "My user",
+        "myuser",
+        "myuser@gmail.com",
+        "secretpass",
+        UserRoles.ROLE_INSTRUCTOR);
+
+    assertEquals(1, author.getAuthorities().size());
+    assertEquals(
+        UserRoles.ROLE_INSTRUCTOR.name(),
+        author.getAuthorities().iterator().next().getAuthority());
   }
 }
