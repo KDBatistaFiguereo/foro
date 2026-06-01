@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest(value = CreateCourseController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
 @ActiveProfiles("test")
 @Tag("controller")
-@WithMockUser
+@WithMockUser(roles = "INSTRUCTOR")
 @Import({ CourseDtoMapperImpl.class, ObjectMapper.class })
 public class CreateCourseControllerTest {
 
@@ -54,9 +54,8 @@ public class CreateCourseControllerTest {
     Course createdCourse = CourseMother.sample();
     when(createCourse.createCourse(any()))
         .thenReturn(createdCourse);
-    String json = objectMapper.writeValueAsString(createdCourse);
-
     CourseDto expected = courseMapper.toDto(createdCourse);
+    String json = objectMapper.writeValueAsString(expected);
 
     mockMvc.perform(post("/courses")
         .with(csrf())

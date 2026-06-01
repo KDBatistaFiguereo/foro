@@ -2,6 +2,7 @@ package com.kdbf.forum.adapters.in.web.course;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public class UpdateCourseController {
   private CourseDtoMapper courseMapper;
 
   @PutMapping("/courses/{courseCode}")
+  @PreAuthorize("hasRole('INSTRUCTOR')")
   public ResponseEntity<CourseDto> updateCourseName(
       @PathVariable("courseCode") String courseCode,
       @RequestBody @Valid UpdateCourseDto updateDto) {

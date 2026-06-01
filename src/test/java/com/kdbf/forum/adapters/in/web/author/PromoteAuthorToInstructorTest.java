@@ -34,7 +34,7 @@ import com.kdbf.forum.mother.AuthorMother;
 //TODO: make it so the mock user has to be an admin
 //TODO only an admin could do such promotion
 @ActiveProfiles("test")
-@WithMockUser
+@WithMockUser(roles = "ADMIN")
 @Tag("controller")
 @WebMvcTest(value = PromoteAuthorController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtSecurityFilter.class))
 public class PromoteAuthorToInstructorTest {

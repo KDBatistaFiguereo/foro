@@ -66,7 +66,7 @@ public class JwtSecurityFilterTest {
 
     assertNotNull(authentication);
     assertEquals(author, authentication.getPrincipal());
-    assertEquals("ROLE_USER", authentication.getAuthorities().iterator().next().getAuthority());
+    assertEquals("ROLE_MEMBER", authentication.getAuthorities().iterator().next().getAuthority());
     verify(filterChain).doFilter(servletRequest, servletResponse);
 
   }
