@@ -26,6 +26,9 @@ public class SecurityConfig {
 
   private JwtSecurityFilter securityFilter;
 
+  @Value("${app.swagger.enabled}")
+  private boolean swaggerEnabled;
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
@@ -33,6 +36,15 @@ public class SecurityConfig {
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .httpBasic(basic -> basic.disable())
         .authorizeHttpRequests(request -> {
+
+          if(swaggerEnabled){
+            request.requestMatchers(
+              "/swagger-ui.html",
+              "/swagger-ui/**",
+              "/v3/api-docs/**",
+              "/v3/api-docs.yaml"
+            ).permitAll();
+          }
           request.requestMatchers(HttpMethod.POST, "/login").permitAll();
           request.requestMatchers(HttpMethod.POST, "/sign-up").permitAll();
           request.anyRequest().authenticated();
