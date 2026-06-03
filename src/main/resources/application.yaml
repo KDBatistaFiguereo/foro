@@ -1,46 +1,24 @@
 spring:
-  application:
-    name: forum
-  profiles:
-    active: dev
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-  security:
-    user:
-      name: ${SECURITY_NAME}
-      password: ${SECURITY_PASSWORD}
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
-  api:
-    security:
-      token:
-        secret: ${TOKEN_SECRET}
-      seed:
-        user:
-          email: ${SEED_USER_EMAIL}
-          password: ${SEED_USER_PASS}
----
-spring:
-  main:
-    lazy-initialization: true
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:tc:postgresql:16:///testdb
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-  flyway:
-    enabled: true
-  database:
-    seeding:
-      enabled: false
+
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true
+      ddl-auto: validate
+    show-sql: false
+
+  flyway:
+    enabled: true
+
+app:
+  swagger:
+    enabled: false
+
+  logging:
+    level:
+      root: INFO
+      org.springframework: WARN
+      org.hibernate.SQL: WARN

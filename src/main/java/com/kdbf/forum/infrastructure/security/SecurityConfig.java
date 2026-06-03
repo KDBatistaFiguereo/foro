@@ -1,5 +1,6 @@
 package com.kdbf.forum.infrastructure.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,15 +17,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.kdbf.forum.adapters.in.security.filter.JwtSecurityFilter;
 
-import lombok.AllArgsConstructor;
-
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
 
   private JwtSecurityFilter securityFilter;
+
+  @Value("${app.swagger.enabled}")
+  private boolean swaggerEnabled;
+
+  public SecurityConfig(JwtSecurityFilter securityFilter) {
+    this.securityFilter = securityFilter;
+  }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,6 +38,14 @@ public class SecurityConfig {
         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .httpBasic(basic -> basic.disable())
         .authorizeHttpRequests(request -> {
+
+          if (swaggerEnabled) {
+            request.requestMatchers(
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/v3/api-docs.yaml").permitAll();
+          }
           request.requestMatchers(HttpMethod.POST, "/login").permitAll();
           request.requestMatchers(HttpMethod.POST, "/sign-up").permitAll();
           request.anyRequest().authenticated();

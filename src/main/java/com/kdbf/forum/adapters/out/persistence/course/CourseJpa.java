@@ -31,7 +31,7 @@ public class CourseJpa {
 
   @Embedded
   @AttributeOverrides({
-      @AttributeOverride(name = "code", column = @Column(name = "course_code"))
+      @AttributeOverride(name = "code", column = @Column(name = "course_code", nullable = false))
   })
   private CourseCode courseCode;
 

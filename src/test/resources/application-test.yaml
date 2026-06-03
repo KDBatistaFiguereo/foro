@@ -1,9 +1,1 @@
-spring:
-  api:
-    security:
-      token:
-        secret: ${random.uuid}${random.uuid}
-      seed:
-        user:
-          email: test-${random.uuid}@test.local
-          password: ${random.uuid}
+

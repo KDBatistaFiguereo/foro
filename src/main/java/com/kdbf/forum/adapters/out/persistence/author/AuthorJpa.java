@@ -3,6 +3,8 @@ package com.kdbf.forum.adapters.out.persistence.author;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import com.kdbf.forum.application.domain.model.entity.UserRoles;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,13 +40,15 @@ public class AuthorJpa implements UserDetails {
   @Column(name = "handle", nullable = false)
   private String handle;
 
-  @Column(unique = true, nullable = false, length = 100)
+  @Column(unique = true, nullable = false, length = 100, columnDefinition = "citext")
   private String username;
 
   @Column(name = "password", nullable = false, length = 255)
   private String hashedPassword;
 
-  @Column(name = "role")
+  @Column(nullable = false, name = "role", columnDefinition = "citext")
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+  @Enumerated(EnumType.STRING)
   private UserRoles role;
 
   public AuthorJpa(String displayName,
