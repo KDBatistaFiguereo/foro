@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.kdbf.forum.adapters.out.persistence.author.AuthorJpa;
@@ -64,6 +65,13 @@ public class TopicPersistenceAdapter implements
           return topicMapper.toDomain(saved, context);
 
         });
+  }
+
+  @Override
+  public List<Topic> findAllByTitle(String title, Pageable pageable) {
+    return topicRepository.findAllByTitle(title, pageable).stream()
+        .map(x -> topicMapper.toDomain(x, context))
+        .toList();
   }
 
   @Override

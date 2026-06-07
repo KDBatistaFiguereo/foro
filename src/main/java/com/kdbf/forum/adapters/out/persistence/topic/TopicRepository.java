@@ -1,8 +1,10 @@
 package com.kdbf.forum.adapters.out.persistence.topic;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -43,4 +45,6 @@ public interface TopicRepository extends JpaRepository<TopicJpa, Long> {
   public boolean existsByPublicId(UUID publicId);
 
   public boolean existsByTitleAndCourseCourseCode(String title, CourseCode courseCode);
+
+  public List<TopicJpa> findAllByTitle(String title, Pageable pageable);
 }
