@@ -12,10 +12,12 @@ import com.kdbf.forum.adapters.in.web.topic.mapper.TopicDtoMapper;
 import com.kdbf.forum.application.port.in.topic.SearchTopicUseCase;
 import com.kdbf.forum.application.port.in.topic.query.SearchTopicQuery;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class SearchTopicController {
 
   SearchTopicUseCase searchTopicUseCase;
