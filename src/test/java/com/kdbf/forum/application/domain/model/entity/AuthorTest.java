@@ -2,23 +2,44 @@ package com.kdbf.forum.application.domain.model.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+import java.util.Set;
+
 import org.junit.jupiter.api.Tag;
 
 @Tag("temp")
 public class AuthorTest {
 
-  public void shouldIncreaseFollowerCount() {
+  public void ShouldFollowAuthor() {
+    Set<String> listAuthors = Set.of(
+        "johndoe",
+        "janedoe");
 
-    final int FOLLOWER_COUNT = 10;
     Author author = new Author(
-        "John",
-        "littlejohn",
+        "Mark Dan",
+        "mrkdn12",
         UserRoles.ROLE_MEMBER,
-        FOLLOWER_COUNT);
+        listAuthors);
 
-    author.increaseFollowers();
+    author.followAuthor("sarag45");
 
-    assertEquals(11, author.getFollowerCount());
+    assertEquals(3, author.getFollows().length());
+    assertEquals("sarag45", actual);
+
   }
+
+  // public void shouldIncreaseFollowerCount() {
+  //
+  // final int FOLLOWER_COUNT = 10;
+  // Author author = new Author(
+  // "John",
+  // "littlejohn",
+  // UserRoles.ROLE_MEMBER,
+  // FOLLOWER_COUNT);
+  //
+  // author.increaseFollowers();
+  //
+  // assertEquals(11, author.getFollowerCount());
+  // }
 
 }
