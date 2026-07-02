@@ -1,30 +1,32 @@
 package com.kdbf.forum.application.domain.model.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-import java.util.Set;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 @Tag("temp")
 public class AuthorTest {
 
-  public void ShouldFollowAuthor() {
-    Set<String> listAuthors = Set.of(
-        "johndoe",
-        "janedoe");
+  Author author;
 
-    Author author = new Author(
+  @BeforeEach
+  public void setUp() {
+    author = new Author(
         "Mark Dan",
         "mrkdn12",
-        UserRoles.ROLE_MEMBER,
-        listAuthors);
+        UserRoles.ROLE_MEMBER);
+
+  }
+
+  @Test
+  public void ShouldFollowAuthor() {
 
     author.followAuthor("sarag45");
-
-    assertEquals(3, author.getFollows().length());
-    assertEquals("sarag45", actual);
+    assertEquals(1, author.getFollowing().size());
+    assertTrue(author.getFollowing().contains("sarag45"));
 
   }
 
