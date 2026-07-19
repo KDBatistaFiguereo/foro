@@ -8,6 +8,12 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
   api:
     security:
       token:
@@ -16,8 +22,8 @@ spring:
         user:
           email: ${SEED_USER_EMAIL}
           password: ${SEED_USER_PASS}
-  flyway:
-    enabled: true
+  config:
+    import: "optional:file:.env[.properties]"
 app:
   swagger:
     enabled: true
