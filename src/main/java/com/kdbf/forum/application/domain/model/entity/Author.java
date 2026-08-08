@@ -1,5 +1,9 @@
 package com.kdbf.forum.application.domain.model.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 import com.kdbf.forum.application.commons.Default;
 import com.kdbf.forum.application.domain.model.exception.InvalidDisplayNameException;
 
@@ -11,6 +15,7 @@ public class Author {
   private String displayName;
   private String handle;
   private UserRoles role;
+  private Set<UUID> bookmarks = new HashSet<>();
 
   public Author(String displayName, String handle) {
     if (!isValidName(displayName)) {
@@ -32,6 +37,11 @@ public class Author {
 
   public void promoteToInstructor() {
     this.role = UserRoles.ROLE_INSTRUCTOR;
+  }
+
+  public void addToBookmarks(UUID topicId) {
+    this.bookmarks.add(topicId);
+
   }
 
   private Boolean isValidName(String name) {
